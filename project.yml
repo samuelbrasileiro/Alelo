@@ -23,3 +23,9 @@ targetTemplates:
       - path: ${groupName}/${targetName}
     group: ${groupName}
     
+  framework:
+    deploymentTarget: "14.0"
+    platform: iOS
+    type: framework
+    info:
+        path: ${groupName}/${targetName}/Resources/Info.plist
