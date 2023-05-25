@@ -1,0 +1,25 @@
+name: AleloChallenge
+options:
+  bundleIdPrefix: com.samuel.AleloChallenge
+  createIntermediateGroups: true
+    
+targets:
+  Application:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    templates:
+      - groupable
+    templateAttributes:
+      groupName: App
+      targetName: Application
+    scheme:
+      gatherCoverageData: true
+ 
+        
+targetTemplates:
+  groupable:
+    sources:
+      - path: ${groupName}/${targetName}
+    group: ${groupName}
+    
