@@ -16,6 +16,25 @@ targets:
     scheme:
       gatherCoverageData: true
  
+  Core:
+    templates:
+      - framework
+      - groupable
+      - swiftgen-generated
+    templateAttributes:
+      groupName: Core
+      targetName: Core
+    dependencies:
+      - target: Service
+      
+  Service:
+    templates:
+      - framework
+      - groupable
+      - swiftgen-generated
+    templateAttributes:
+      groupName: Service
+      targetName: Service
         
 targetTemplates:
   groupable:
