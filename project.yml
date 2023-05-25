@@ -3,6 +3,10 @@ options:
   bundleIdPrefix: com.samuel.AleloChallenge
   createIntermediateGroups: true
     
+packages:
+  DependencyInjection:
+    path: DependencyInjection
+    
 targets:
   Application:
     type: application
@@ -26,6 +30,7 @@ targets:
       targetName: Core
     dependencies:
       - target: Service
+      - package: DependencyInjection
       
   Service:
     templates:
@@ -35,6 +40,8 @@ targets:
     templateAttributes:
       groupName: Service
       targetName: Service
+    dependencies:
+      - package: DependencyInjection
         
 targetTemplates:
   groupable:
