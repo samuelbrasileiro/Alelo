@@ -66,3 +66,10 @@ targetTemplates:
         outputFiles:
           - ${groupName}/${targetName}/Resources/Generated/Assets.swift
           - ${groupName}/${targetName}/Resources/Generated/Strings.swift
+
+  unit-tests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "14.0"
+    info:
+        path: ${groupName}/${targetName}/Info.plist
