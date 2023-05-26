@@ -33,6 +33,18 @@ targets:
     dependencies:
       - target: Service
       - package: DependencyInjection
+
+  ModuleIntegrator:
+    templates:
+      - framework
+      - groupable
+    templateAttributes:
+      groupName: Core
+      targetName: ModuleIntegrator
+    dependencies:
+      - target: Core
+      - target: Service
+      - package: DependencyInjection
       
   Service:
     templates:
