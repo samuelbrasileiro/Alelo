@@ -55,3 +55,14 @@ targetTemplates:
     type: framework
     info:
         path: ${groupName}/${targetName}/Resources/Info.plist
+
+  swiftgen-generated:
+    preBuildScripts:
+      - script: cd ${groupName}/Config && swiftgen
+        name: Swiftgen
+        inputFiles:
+          - ${groupName}/${targetName}/Resources/Assets.xcassets
+          - ${groupName}/${targetName}/Resources/Localizable.strings
+        outputFiles:
+          - ${groupName}/${targetName}/Resources/Generated/Assets.swift
+          - ${groupName}/${targetName}/Resources/Generated/Strings.swift
