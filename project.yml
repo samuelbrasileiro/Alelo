@@ -6,6 +6,8 @@ options:
 packages:
   DependencyInjection:
     path: DependencyInjection
+  Commons:
+    path: Commons
     
 targets:
   Application:
@@ -85,6 +87,7 @@ targets:
       - target: Core
       - target: Service
       - package: DependencyInjection
+      - package: Commons
         
 targetTemplates:
   groupable:
