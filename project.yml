@@ -67,6 +67,7 @@ targets:
     dependencies:
       - target: Service
       - package: DependencyInjection
+      - target: ModuleIntegrator
         
 targetTemplates:
   groupable:
