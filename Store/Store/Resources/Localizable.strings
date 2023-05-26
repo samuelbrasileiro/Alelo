@@ -5,3 +5,5 @@
   Created by Samuel Brasileiro on 26/05/23.
   
 */
+
+"Generic.Coder.FatalError" = "init(coder:) has not been implemented";
