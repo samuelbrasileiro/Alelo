@@ -17,6 +17,10 @@ targets:
     templateAttributes:
       groupName: App
       targetName: Application
+    dependencies:
+      - target: Core
+      - target: ModuleIntegrator
+      - target: Store
     scheme:
       testTargets:
         - ServiceTests
@@ -43,6 +47,7 @@ targets:
     dependencies:
       - target: Core
       - target: Service
+      - target: Store
       - package: DependencyInjection
       
   Service:
@@ -67,6 +72,19 @@ targets:
       - target: Service
       - package: DependencyInjection
       - target: ModuleIntegrator
+
+  Store:
+    templates:
+      - framework
+      - groupable
+      - swiftgen-generated
+    templateAttributes:
+      groupName: Store
+      targetName: Store
+    dependencies:
+      - target: Core
+      - target: Service
+      - package: DependencyInjection
         
 targetTemplates:
   groupable:
