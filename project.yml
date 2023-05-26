@@ -26,7 +26,6 @@ targets:
     templates:
       - framework
       - groupable
-      - swiftgen-generated
     templateAttributes:
       groupName: Core
       targetName: Core
