@@ -8,6 +8,9 @@ packages:
     path: DependencyInjection
   Commons:
     path: Commons
+  SDWebImage:
+    url: https://github.com/SDWebImage/SDWebImage.git
+    from: 5.13.0
     
 targets:
   Application:
@@ -88,6 +91,7 @@ targets:
       - target: Service
       - package: DependencyInjection
       - package: Commons
+      - package: SDWebImage
         
 targetTemplates:
   groupable:
