@@ -18,6 +18,8 @@ targets:
       groupName: App
       targetName: Application
     scheme:
+      testTargets:
+        - ServiceTests
       gatherCoverageData: true
  
   Core:
@@ -41,6 +43,17 @@ targets:
       groupName: Service
       targetName: Service
     dependencies:
+      - package: DependencyInjection
+
+  ServiceTests:
+    templates:
+      - unit-tests
+      - groupable
+    templateAttributes:
+      groupName: Service
+      targetName: ServiceTests
+    dependencies:
+      - target: Service
       - package: DependencyInjection
         
 targetTemplates:
