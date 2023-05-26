@@ -48,7 +48,7 @@ public final class StoreCoordinator: CoreCoordinator {
     
     public func getTransition(to route: Route) -> UIViewController? {
         switch route {
-        case .bestSellers: return UIViewController()
+        case .bestSellers: return makeStoreBestSellersViewController()
         case .cart: return UIViewController()
         case .productDetails: return UIViewController()
         }
