@@ -10,14 +10,19 @@ import SDWebImage
 import UIKit
 
 class StoreProductCell: UITableViewCell {
+    
+    // MARK: - PUBLIC PROPERTIES
+    
     static let cellReuseIdentifier = "StoreProductCellReuseIdentifier"
-    
-    private var product: StoreProduct?
-    
     var subscribers: Set<AnyCancellable> = []
-    
     let tapRemoveButton: PassthroughSubject<StoreProductCell, Never> = .init()
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
+    
+    // MARK: - PRIVATE PROPERTIES
+
+    private var product: StoreProduct?
+
+    // MARK: - UI
     
     lazy private var productImageView: UIImageView = {
         let image = UIImageView()
@@ -46,6 +51,8 @@ class StoreProductCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - INITIALIZERS
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -57,6 +64,8 @@ class StoreProductCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError(Localization.Generic.Coder.fatalError)
     }
+    
+    // MARK: - LIFE CYCLE
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -97,6 +106,8 @@ class StoreProductCell: UITableViewCell {
         addGestureRecognizer(gesture)
     }
     
+    // MARK: - PUBLIC METHODS
+    
     public func setup(product: StoreProduct) {
         self.product = product
         nameView.text = product.name
@@ -104,6 +115,8 @@ class StoreProductCell: UITableViewCell {
             productImageView.sd_setImage(with: url)
         }
     }
+    
+    // MARK: - PRIVATE METHODS
     
     @objc private func didTapView(sender: UIButton) {
         tapView.send(product)

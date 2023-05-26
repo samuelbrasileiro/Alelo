@@ -13,12 +13,12 @@ import UIKit
 
 class StoreBestSellersViewModel: ObservableObject {
     
-    // MARK: - PUBLIC ATTRIBUTES
+    // MARK: - PUBLIC PROPERTIES
     
     let changeViewState: PassthroughSubject<StoreBestSellersViewState, Never> = .init()
     var products: [StoreProduct] = []
     
-    // MARK: - PRIVATE ATTRIBUTES
+    // MARK: - PRIVATE PROPERTIES
     
     private let bestSellersProvider: StoreBestSellersProviderProtocol
     

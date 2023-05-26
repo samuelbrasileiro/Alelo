@@ -19,7 +19,7 @@ public final class StoreCoordinator: CoreCoordinator {
         case cart
     }
     
-    // MARK: - PUBLIC ATTRIBUTES
+    // MARK: - PUBLIC PROPERTIES
     
     public var navigationController: UINavigationController
     weak public var parentCoordinator: (any Coordinator)?

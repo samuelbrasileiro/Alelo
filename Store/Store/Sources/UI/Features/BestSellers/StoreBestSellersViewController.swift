@@ -15,11 +15,11 @@ protocol StoreBestSellersViewControllerDelegate: AnyObject {
 
 class StoreBestSellersViewController: UIViewController {
     
-    // MARK: - PUBLIC ATTRIBUTES
+    // MARK: - PUBLIC PROPERTIES
     
     weak var delegate: StoreBestSellersViewControllerDelegate?
     
-    // MARK: - PRIVATE ATTRIBUTES
+    // MARK: - PRIVATE PROPERTIES
     
     private let viewModel: StoreBestSellersViewModel
     private var subscriptions: Set<AnyCancellable> = []
