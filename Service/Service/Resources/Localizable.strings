@@ -1,7 +1,19 @@
 /* 
   Localizable.strings
-  MeusTopArtistas
+  Service
 
   Created by Samuel Brasileiro on 25/05/23.
   
 */
+
+"Models.Error.dataNotFound.title" = "There was no data to be fetched";
+"Models.Error.dataNotFound.comment" = "Data not found";
+
+"Models.Error.dataNotDecoded.title" = "There was data, but it was not possible to decode it to the requested type";
+"Models.Error.dataNotDecoded.comment" = "Data not decoded";
+
+"Models.Error.invalidURL.title" = "The URL you tried to create, \"%@\", was invalid";
+"Models.Error.invalidURL.comment" = "InvalidURL";
+
+"Models.Error.invalidStatusCode.title" = "Unexpected status code. Expected 200";
+"Models.Error.invalidStatusCode.comment" = "Invalid Status Code";
