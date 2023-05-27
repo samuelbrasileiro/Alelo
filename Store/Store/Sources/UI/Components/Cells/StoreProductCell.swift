@@ -24,8 +24,8 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
             productImageView,
             nameLabel,
             priceLabel,
-            discountLabel,
-            promoLabel
+            promoLabel,
+            installmentsLabel
         ]
     }
     
@@ -51,13 +51,11 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         let padding: CGFloat = 4
         label.padding = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.font = .systemFont(ofSize: 12, weight: .regular)
         label.numberOfLines = 1
         label.text = "PROMO"
-        label.layer.cornerRadius = 4
-        label.layer.masksToBounds = true
-        label.backgroundColor = .systemGray5
-        label.textColor = .systemGray
+        label.backgroundColor = .label
+        label.textColor = .systemBackground
         label.layoutIfNeeded()
 
         return label
@@ -84,18 +82,32 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     lazy private var discountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 8, weight: .regular)
+        label.font = .systemFont(ofSize: 12, weight: .light)
+        label.textColor = .systemGray
         label.numberOfLines = 1
         label.text = "R$000.00"
+        label.isHidden = true
         return label
     }()
     
-    lazy private var tagsStack: UILabel = {
+    lazy private var discountPercentageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.font = .systemFont(ofSize: 15, weight: .light)
+        label.textColor = .red
         label.numberOfLines = 1
-        label.text = "PROMO"
+        label.text = "00%"
+        label.isHidden = true
+        return label
+    }()
+    
+    lazy private var installmentsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 10, weight: .light)
+        label.textColor = .systemGray
+        label.numberOfLines = 1
+        label.text = "1x R$ 00,00"
         return label
     }()
 
@@ -136,9 +148,11 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     private func setupViewHierarchy() {
         contentView.addSubview(productImageView)
         contentView.addSubview(promoLabel)
+        contentView.addSubview(discountPercentageLabel)
         contentView.addSubview(nameLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(discountLabel)
+        contentView.addSubview(installmentsLabel)
     }
     
     private func setupConstraints() {
@@ -150,7 +164,11 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
             
             promoLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 8),
             promoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            promoLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8),
+            
+            discountPercentageLabel.topAnchor.constraint(equalTo: promoLabel.topAnchor),
+            discountPercentageLabel.bottomAnchor.constraint(equalTo: promoLabel.bottomAnchor),
+            discountPercentageLabel.leadingAnchor.constraint(equalTo: promoLabel.trailingAnchor, constant: 8),
+            discountPercentageLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8),
             
             nameLabel.topAnchor.constraint(equalTo: promoLabel.bottomAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -158,12 +176,14 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
             
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            discountLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 8),
-            discountLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            discountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            discountLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
+            discountLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 4),
+            discountLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8),
             
+            installmentsLabel.topAnchor.constraint(equalTo: discountLabel.bottomAnchor, constant: 4),
+            installmentsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            installmentsLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8)
         ])
     }
     
@@ -179,12 +199,17 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     public func setup(product: StoreProduct) {
         self.product = product
         nameLabel.text = product.name
-        priceLabel.text = product.regularPrice
-        discountLabel.text = product.actualPrice
+        priceLabel.text = product.actualPrice
+        installmentsLabel.text = product.installments
         
         discountLabel.isHidden = !product.onSale
         promoLabel.isHidden = !product.onSale
+        discountPercentageLabel.isHidden = !product.onSale
         
+        if product.onSale {
+            setDiscountPrice(value: product.regularPrice)
+            discountPercentageLabel.text = product.discountPercentage
+        }
         if let url = URL(string: product.image) {
             productImageView.sd_setImage(with: url)
         }
@@ -198,5 +223,11 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     @objc private func didTapAddToCartButton(sender: UIButton) {
         tapAddToCartButton.send(self)
+    }
+    
+    private func setDiscountPrice(value: String) {
+        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: value)
+            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSRange(location: 0, length: attributeString.length))
+        discountLabel.attributedText = attributeString
     }
 }
