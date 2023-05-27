@@ -26,13 +26,18 @@ class StoreBestSellersViewController: UIViewController {
     
     // MARK: - UI
     
-    lazy private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(StoreProductCell.self, forCellReuseIdentifier: StoreProductCell.cellReuseIdentifier)
-        tableView.delegate = self
-        tableView.dataSource = self
-        return tableView
+    lazy private var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(StoreProductCell.self, forCellWithReuseIdentifier: StoreProductCell.cellReuseIdentifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        return collectionView
     }()
     
     lazy private var spinner: UIActivityIndicatorView = {
@@ -80,23 +85,22 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func setupViewHierarchy() {
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
     }
     
     private func setupView() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "Best Sellers"
-        tableView.tableFooterView = spinner
-        tableView.refreshControl = refresh
+        collectionView.refreshControl = refresh
     }
     
     // MARK: - HANDLERS
@@ -119,7 +123,7 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func handleSuccess() {
-        tableView.reloadData()
+        collectionView.reloadData()
         spinner.isHidden = true
         spinner.stopAnimating()
         view.layoutIfNeeded()
@@ -151,19 +155,15 @@ class StoreBestSellersViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UICollectionViewDelegateFlowLayout
 
-extension StoreBestSellersViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension StoreBestSellersViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.products.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: StoreProductCell.cellReuseIdentifier,
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreProductCell.cellReuseIdentifier,
                                                        for: indexPath) as? StoreProductCell,
               let product = viewModel.products[safe: indexPath.row] else { return StoreProductCell() }
         cell.setup(product: product)
@@ -176,7 +176,14 @@ extension StoreBestSellersViewController: UITableViewDelegate, UITableViewDataSo
         return cell
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / 2
+        let height = 400.0
+        return .init(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = viewModel.products[safe: indexPath.item] else { return }
+        didTapProduct(product)
     }
 }

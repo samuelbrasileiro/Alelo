@@ -9,13 +9,13 @@ import Combine
 import SDWebImage
 import UIKit
 
-class StoreProductCell: UITableViewCell {
+class StoreProductCell: UICollectionViewCell {
     
     // MARK: - PUBLIC PROPERTIES
     
     static let cellReuseIdentifier = "StoreProductCellReuseIdentifier"
     var subscribers: Set<AnyCancellable> = []
-    let tapRemoveButton: PassthroughSubject<StoreProductCell, Never> = .init()
+    let tapAddToCartButton: PassthroughSubject<StoreProductCell, Never> = .init()
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
     
     // MARK: - PRIVATE PROPERTIES
@@ -29,32 +29,34 @@ class StoreProductCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         image.layer.masksToBounds = true
-        image.layer.cornerRadius = 10
-        image.image = .init(systemName: "person.circle.fill")
+        image.layer.cornerRadius = 4
+        image.image = .init(systemName: "tshirt.fill")
         return image
     }()
     
     lazy private var nameView: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 27, weight: .bold)
+        label.font = .systemFont(ofSize: 15, weight: .bold)
         label.numberOfLines = 0
         return label
     }()
     
-    lazy private var removeButton: UIButton = {
+    lazy private var addToCartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(.init(systemName: "multiply.circle.fill"),
-                        for: .normal)
-        button.addTarget(self, action: #selector(didTapRemoveButton(sender:)), for: .touchUpInside)
+        button.setTitle("Add to cart", for: .normal)
+        button.backgroundColor = .systemGreen
+        button.layer.cornerRadius = 4
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(didTapAddToCartButton(sender:)), for: .touchUpInside)
         return button
     }()
     
     // MARK: - INITIALIZERS
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setupViewHierarchy()
         setupConstraints()
@@ -75,27 +77,26 @@ class StoreProductCell: UITableViewCell {
     private func setupViewHierarchy() {
         contentView.addSubview(productImageView)
         contentView.addSubview(nameView)
-        contentView.addSubview(removeButton)
+        contentView.addSubview(addToCartButton)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.widthAnchor.constraint(equalToConstant: 30),
+            productImageView.widthAnchor.constraint(equalToConstant: 100),
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor),
             productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             productImageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 8),
-            productImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -8),
             
             nameView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
             nameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            nameView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            nameView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
+            nameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            removeButton.widthAnchor.constraint(equalToConstant: 20),
-            removeButton.heightAnchor.constraint(equalTo: removeButton.widthAnchor),
-            removeButton.leadingAnchor.constraint(equalTo: nameView.trailingAnchor, constant: 8),
-            removeButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            removeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            
+            addToCartButton.centerXAnchor.constraint(equalTo: nameView.centerXAnchor),
+            addToCartButton.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 8),
+            addToCartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
     
@@ -122,7 +123,7 @@ class StoreProductCell: UITableViewCell {
         tapView.send(product)
     }
     
-    @objc private func didTapRemoveButton(sender: UIButton) {
-        tapRemoveButton.send(self)
+    @objc private func didTapAddToCartButton(sender: UIButton) {
+        tapAddToCartButton.send(self)
     }
 }
