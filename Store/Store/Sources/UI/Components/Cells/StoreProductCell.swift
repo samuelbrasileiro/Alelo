@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Core
 import SDWebImage
 import UIKit
 
@@ -19,9 +20,9 @@ class StoreProductCell: UICollectionViewCell {
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
     
     // MARK: - PRIVATE PROPERTIES
-
+    
     private var product: StoreProduct?
-
+    
     // MARK: - UI
     
     lazy private var productImageView: UIImageView = {
@@ -34,14 +35,60 @@ class StoreProductCell: UICollectionViewCell {
         return image
     }()
     
-    lazy private var nameView: UILabel = {
-        let label = UILabel()
+    
+    lazy private var promoLabel: UILabel = {
+        let label = CorePaddedLabel()
+        let padding: CGFloat = 4
+        label.padding = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .bold)
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.text = "PROMO"
+        label.layer.cornerRadius = 4
+        label.layer.masksToBounds = true
+        label.backgroundColor = .systemGray5
+        label.textColor = .systemGray
+        label.layoutIfNeeded()
+
         return label
     }()
     
+    lazy private var nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 15, weight: .light)
+        label.numberOfLines = 1
+        label.text = "placeholder"
+        return label
+    }()
+    
+    lazy private var priceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.numberOfLines = 1
+        label.text = "R$000.00"
+        return label
+    }()
+    
+    lazy private var discountLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 8, weight: .regular)
+        label.numberOfLines = 1
+        label.text = "R$000.00"
+        return label
+    }()
+    
+    lazy private var tagsStack: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.numberOfLines = 1
+        label.text = "PROMO"
+        return label
+    }()
+
     lazy private var addToCartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -52,6 +99,8 @@ class StoreProductCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(didTapAddToCartButton(sender:)), for: .touchUpInside)
         return button
     }()
+    
+    
     
     // MARK: - INITIALIZERS
     
@@ -76,27 +125,35 @@ class StoreProductCell: UICollectionViewCell {
     
     private func setupViewHierarchy() {
         contentView.addSubview(productImageView)
-        contentView.addSubview(nameView)
-        contentView.addSubview(addToCartButton)
+        contentView.addSubview(promoLabel)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(discountLabel)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.widthAnchor.constraint(equalToConstant: 100),
-            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor),
-            productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            productImageView.heightAnchor.constraint(equalToConstant: 160),
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            productImageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 8),
+            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             
-            nameView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
-            nameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            nameView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
-            nameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            promoLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 8),
+            promoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            promoLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8),
             
+            nameLabel.topAnchor.constraint(equalTo: promoLabel.bottomAnchor, constant: 8),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            addToCartButton.centerXAnchor.constraint(equalTo: nameView.centerXAnchor),
-            addToCartButton.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 8),
-            addToCartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            
+            discountLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 8),
+            discountLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            discountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            
         ])
     }
     
@@ -111,7 +168,13 @@ class StoreProductCell: UICollectionViewCell {
     
     public func setup(product: StoreProduct) {
         self.product = product
-        nameView.text = product.name
+        nameLabel.text = product.name
+        priceLabel.text = product.regularPrice
+        discountLabel.text = product.actualPrice
+        
+        discountLabel.isHidden = !product.onSale
+        promoLabel.isHidden = !product.onSale
+        
         if let url = URL(string: product.image) {
             productImageView.sd_setImage(with: url)
         }
