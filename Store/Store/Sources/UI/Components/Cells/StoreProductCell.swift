@@ -9,8 +9,9 @@ import Combine
 import Core
 import SDWebImage
 import UIKit
+import UIView_Shimmer
 
-class StoreProductCell: UICollectionViewCell {
+class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     // MARK: - PUBLIC PROPERTIES
     
@@ -18,6 +19,15 @@ class StoreProductCell: UICollectionViewCell {
     var subscribers: Set<AnyCancellable> = []
     let tapAddToCartButton: PassthroughSubject<StoreProductCell, Never> = .init()
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
+    var shimmeringAnimatedItems: [UIView] {
+        [
+            productImageView,
+            nameLabel,
+            priceLabel,
+            discountLabel,
+            promoLabel
+        ]
+    }
     
     // MARK: - PRIVATE PROPERTIES
     

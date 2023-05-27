@@ -9,6 +9,7 @@ import Combine
 import Commons
 import Core
 import UIKit
+import UIView_Shimmer
 
 protocol StoreBestSellersViewControllerDelegate: AnyObject {
     func storeBestSellersViewController(_ viewController: StoreBestSellersViewController, goToProduct product: StoreProduct)
@@ -25,6 +26,7 @@ class StoreBestSellersViewController: UIViewController {
     
     private let viewModel: StoreBestSellersViewModel
     private var subscriptions: Set<AnyCancellable> = []
+    private var isLoading = true
     
     // MARK: - UI
     
@@ -128,11 +130,13 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func handleLoading() {
+        isLoading = true
         spinner.isHidden = false
         spinner.startAnimating()
     }
     
     private func handleSuccess() {
+        isLoading = false
         collectionView.reloadData()
         spinner.isHidden = true
         spinner.stopAnimating()
@@ -140,6 +144,7 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func handleError(_ error: Error) {
+        isLoading = false
         showError(error)
         spinner.isHidden = true
         spinner.stopAnimating()
@@ -173,14 +178,20 @@ class StoreBestSellersViewController: UIViewController {
 
 extension StoreBestSellersViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.products.count
+        let count = viewModel.products.count
+        if count == 0 { // In Shimmer Status
+            return 6
+        } else {
+            return count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreProductCell.cellReuseIdentifier,
-                                                       for: indexPath) as? StoreProductCell,
-              let product = viewModel.products[safe: indexPath.row] else { return StoreProductCell() }
-        cell.setup(product: product)
+                                                            for: indexPath) as? StoreProductCell else { return StoreProductCell() }
+        if let product = viewModel.products[safe: indexPath.row] {
+            cell.setup(product: product)
+        }
         cell.tapView.compactMap { $0 }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] product in
@@ -192,12 +203,16 @@ extension StoreBestSellersViewController: UICollectionViewDelegateFlowLayout, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width / 2
-        let height = 400.0
+        let height = 320.0
         return .init(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = viewModel.products[safe: indexPath.item] else { return }
         didTapProduct(product)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.setTemplateWithSubviews(isLoading, animate: true, viewBackgroundColor: .systemGray4)
     }
 }
