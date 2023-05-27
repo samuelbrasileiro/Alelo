@@ -11,7 +11,10 @@ packages:
   SDWebImage:
     url: https://github.com/SDWebImage/SDWebImage.git
     from: 5.13.0
-    
+  UIView-Shimmer:
+    url: https://github.com/omerfarukozturk/UIView-Shimmer.git
+    from: 1.0.2
+
 targets:
   Application:
     type: application
@@ -92,6 +95,7 @@ targets:
       - package: DependencyInjection
       - package: Commons
       - package: SDWebImage
+      - package: UIView-Shimmer
         
 targetTemplates:
   groupable:
