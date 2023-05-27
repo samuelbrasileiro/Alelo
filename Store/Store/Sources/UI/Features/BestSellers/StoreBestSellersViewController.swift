@@ -65,6 +65,13 @@ class StoreBestSellersViewController: UIViewController {
                                        action: #selector(didTapCartButton))
         return button
     }()
+    
+    lazy private var filterButton: CoreBarButtonItem = {
+        let button = CoreBarButtonItem(image: .init(systemName: "line.3.horizontal.decrease.circle"),
+                                       target: self,
+                                       action: #selector(didTapFilterButton))
+        return button
+    }()
 
     // MARK: - INITIALIZERS
     init(viewModel: StoreBestSellersViewModel) {
@@ -113,6 +120,7 @@ class StoreBestSellersViewController: UIViewController {
         navigationItem.title = "Best Sellers"
         collectionView.refreshControl = refresh
         navigationItem.setRightBarButton(cartButton, animated: true)
+        navigationItem.setLeftBarButton(filterButton, animated: true)
     }
     
     // MARK: - HANDLERS
@@ -150,6 +158,16 @@ class StoreBestSellersViewController: UIViewController {
         spinner.stopAnimating()
     }
     
+    private func handleFilter(kind: StoreFilterKind) {
+        filterButton.badgeValue = 1
+        viewModel.setFilter(kind: kind)
+    }
+    
+    private func handleFilterRemoveAll() {
+        filterButton.badgeValue = 0
+        viewModel.removeFilter()
+    }
+    
     // MARK: - PRIVATE METHODS
     
     private func didTapProduct(_ product: StoreProduct) {
@@ -159,6 +177,22 @@ class StoreBestSellersViewController: UIViewController {
     
     @objc private func didTapCartButton() {
         delegate?.storeBestSellersViewController(self, goToCart: ())
+    }
+    
+    @objc private func didTapFilterButton() {
+        let filterSheet = UIAlertController(title: "Selecione um filtro", message: nil, preferredStyle: .actionSheet)
+        
+        filterSheet.addAction(UIAlertAction(title: "Em Promoção", style: .default, handler: { [weak self] _ in
+            self?.handleFilter(kind: .inPromotion)
+        }))
+        if viewModel.filter != nil {
+            let deleteAction = UIAlertAction(title: "Apagar Filtros", style: .cancel, handler: { [weak self] _ in
+                self?.handleFilterRemoveAll()
+            })
+            deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
+            filterSheet.addAction(deleteAction)
+        }
+        present(filterSheet, animated: true, completion: nil)
     }
     
     private func endRefreshing() {

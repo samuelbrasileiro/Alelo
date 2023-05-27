@@ -16,11 +16,21 @@ class StoreBestSellersViewModel: ObservableObject {
     // MARK: - PUBLIC PROPERTIES
     
     let changeViewState: PassthroughSubject<StoreBestSellersViewState, Never> = .init()
-    var products: [StoreProduct] = []
+    var products: [StoreProduct] {
+        if filter == nil {
+            return allProducts
+        } else {
+            return filteredProducts
+        }
+    }
+    
+    var filter: StoreFilterKind?
     
     // MARK: - PRIVATE PROPERTIES
     
     private let bestSellersProvider: StoreBestSellersProviderProtocol
+    private var allProducts: [StoreProduct] = []
+    private var filteredProducts: [StoreProduct] = []
     
     // MARK: - INITIALIZERS
     
@@ -33,6 +43,16 @@ class StoreBestSellersViewModel: ObservableObject {
     func setup() {
         retrieveBestSellers()
         changeViewState.send(.loading)
+    }
+    
+    func setFilter(kind: StoreFilterKind) {
+        filter = kind
+        applyFilter()
+    }
+    
+    func removeFilter() {
+        filter = nil
+        applyFilter()
     }
     
     // MARK: - PRIVATE METHODS
@@ -49,7 +69,21 @@ class StoreBestSellersViewModel: ObservableObject {
     }
     
     private func handleRetrieveBestSellersSuccess(_ model: StoreBestSellersResponse) {
-        self.products = model.products
+        self.allProducts = model.products
+        applyFilter()
+        changeViewState.send(.success)
+    }
+    
+    private func applyFilter() {
+        if let filter = filter {
+            switch filter {
+            case .inPromotion:
+                filteredProducts = allProducts.filter { $0.onSale }
+            }
+        } else {
+            filteredProducts = []
+        }
+        
         changeViewState.send(.success)
     }
 }
