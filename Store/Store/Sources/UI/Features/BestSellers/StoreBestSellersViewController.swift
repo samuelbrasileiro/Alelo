@@ -7,10 +7,12 @@
 
 import Combine
 import Commons
+import Core
 import UIKit
 
 protocol StoreBestSellersViewControllerDelegate: AnyObject {
     func storeBestSellersViewController(_ viewController: StoreBestSellersViewController, goToProduct product: StoreProduct)
+    func storeBestSellersViewController(_ viewController: StoreBestSellersViewController, goToCart _: Void)
 }
 
 class StoreBestSellersViewController: UIViewController {
@@ -53,6 +55,13 @@ class StoreBestSellersViewController: UIViewController {
         refresh.isHidden = true
         refresh .addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         return refresh
+    }()
+    
+    lazy private var cartButton: CoreBarButtonItem = {
+        let button = CoreBarButtonItem(image: .init(systemName: "cart"),
+                                       target: self,
+                                       action: #selector(didTapCartButton))
+        return button
     }()
 
     // MARK: - INITIALIZERS
@@ -101,6 +110,7 @@ class StoreBestSellersViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = "Best Sellers"
         collectionView.refreshControl = refresh
+        navigationItem.setRightBarButton(cartButton, animated: true)
     }
     
     // MARK: - HANDLERS
@@ -140,6 +150,10 @@ class StoreBestSellersViewController: UIViewController {
     private func didTapProduct(_ product: StoreProduct) {
         print("Did tap cell of \(product.name)")
         delegate?.storeBestSellersViewController(self, goToProduct: product)
+    }
+    
+    @objc private func didTapCartButton() {
+        delegate?.storeBestSellersViewController(self, goToCart: ())
     }
     
     private func endRefreshing() {
