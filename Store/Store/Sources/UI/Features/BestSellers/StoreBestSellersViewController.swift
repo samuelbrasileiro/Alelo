@@ -186,12 +186,12 @@ class StoreBestSellersViewController: UIViewController {
             self?.handleFilter(kind: .inPromotion)
         }))
         if viewModel.filter != nil {
-            let deleteAction = UIAlertAction(title: "Apagar Filtros", style: .cancel, handler: { [weak self] _ in
+            filterSheet.addAction(UIAlertAction(title: "Apagar Filtros", style: .destructive, handler: { [weak self] _ in
                 self?.handleFilterRemoveAll()
-            })
-            deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
-            filterSheet.addAction(deleteAction)
+            }))
         }
+        
+        filterSheet.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
         present(filterSheet, animated: true, completion: nil)
     }
     
