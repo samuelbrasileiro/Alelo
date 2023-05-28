@@ -33,8 +33,7 @@ public class CartDataService: CartDataServiceProtocol {
     }
     
     func update(product: StoreCartProduct) {
-        guard let index = products.firstIndex(where: {$0.chosenSize.sku == product.chosenSize.sku}),
-              let product = products[safe: index] else { return }
+        guard let index = products.firstIndex(where: {$0.chosenSize.sku == product.chosenSize.sku}) else { return }
         if product.quantity > 0 {
             products[index].quantity = product.quantity
         } else {
