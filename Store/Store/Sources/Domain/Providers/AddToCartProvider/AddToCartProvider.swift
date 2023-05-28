@@ -16,6 +16,6 @@ class AddToCartProvider: AddToCartProviderProtocol {
     }
     
     func execute(product: StoreCartProduct, completion: @escaping (Result<Void, Error>) -> Void) {
-        service.remove(product: product)
+        service.add(product: product)
     }
 }
