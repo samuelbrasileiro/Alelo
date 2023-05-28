@@ -7,24 +7,15 @@
 
 import UIKit
 
-public class CoreImage {
-    
-    public enum Name {
-        case unavailableImage
-    }
+public enum CoreImage {
+    case unavailableImage
     
     public var image: UIImage {
         getImageAsset().image
     }
     
-    private let name: CoreImage.Name
-    
-    public init(named name: CoreImage.Name) {
-        self.name = name
-    }
-    
     private func getImageAsset() -> ImageAsset {
-        switch name {
+        switch self {
         case .unavailableImage: return Asset.unavailableImage
         }
     }
