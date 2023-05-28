@@ -122,7 +122,14 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return button
     }()
     
-    
+    lazy private var sizesStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.alignment = .leading
+        stack.spacing = 8
+        return stack
+    }()
     
     // MARK: - INITIALIZERS
     
@@ -153,6 +160,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         contentView.addSubview(priceLabel)
         contentView.addSubview(discountLabel)
         contentView.addSubview(installmentsLabel)
+        contentView.addSubview(sizesStack)
     }
     
     private func setupConstraints() {
@@ -183,7 +191,11 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
             
             installmentsLabel.topAnchor.constraint(equalTo: discountLabel.bottomAnchor, constant: 4),
             installmentsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            installmentsLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8)
+            installmentsLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8),
+            
+            sizesStack.topAnchor.constraint(equalTo: installmentsLabel.bottomAnchor, constant: 4),
+            sizesStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            sizesStack.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8)
         ])
     }
     
@@ -205,6 +217,8 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         discountLabel.isHidden = !product.onSale
         promoLabel.isHidden = !product.onSale
         discountPercentageLabel.isHidden = !product.onSale
+        
+        setSizes(sizes: product.sizes)
         
         if product.onSale {
             setDiscountPrice(value: product.regularPrice)
@@ -229,5 +243,23 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: value)
             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSRange(location: 0, length: attributeString.length))
         discountLabel.attributedText = attributeString
+    }
+    
+    private func setSizes(sizes: [StoreSize]) {
+        sizesStack.removeAllArrangedSubviews()
+        for size in sizes where size.available {
+            let label = CorePaddedLabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.padding = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+            label.text = size.size
+            label.font = .systemFont(ofSize: 10, weight: .thin)
+            label.layer.cornerRadius = 4
+            label.layer.masksToBounds = true
+            label.backgroundColor = .systemBackground
+            label.textColor = .label
+            label.layer.borderColor = UIColor.label.cgColor
+            label.layer.borderWidth = 0.2
+            sizesStack.addArrangedSubview(label)
+        }
     }
 }
