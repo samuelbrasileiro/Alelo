@@ -44,13 +44,6 @@ class StoreBestSellersViewController: UIViewController {
         return collectionView
     }()
     
-    lazy private var spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView(style: .large)
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.isHidden = true
-        return spinner
-    }()
-    
     lazy private var refresh: UIRefreshControl = {
         let refresh = UIRefreshControl()
         refresh.translatesAutoresizingMaskIntoConstraints = false
@@ -151,23 +144,17 @@ class StoreBestSellersViewController: UIViewController {
     
     private func handleLoading() {
         isLoading = true
-        spinner.isHidden = false
-        spinner.startAnimating()
     }
     
     private func handleSuccess() {
         isLoading = false
         collectionView.reloadData()
-        spinner.isHidden = true
-        spinner.stopAnimating()
         view.layoutIfNeeded()
     }
     
     private func handleError(_ error: Error) {
         isLoading = false
         showError(error)
-        spinner.isHidden = true
-        spinner.stopAnimating()
     }
     
     private func handleFilter(kind: StoreFilterKind) {
@@ -210,23 +197,12 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func didTapAddToCart(_ product: StoreProduct) {
-        if product.sizes.count == 1,
-           let size = product.sizes[safe: 0] {
-            handleAddToCart(size: size, product: product)
-            let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Você adicionou um \(product.name.lowercased()) de tamanho \(size.size)", preferredStyle: .alert)
-                sizeAlert.addAction(UIAlertAction(title: "OK", style: .cancel))
-            present(sizeAlert, animated: true)
-            return
+        if product.sizes.count == 1 {
+            presentUnitaryCartConfirmation(product: product)
         }
-        print("Did tap to add \(product.name) into cart")
-        let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Agora selecione o tamanho de \(product.name.lowercased()):", preferredStyle: .alert)
-        for size in product.sizes where size.available {
-            sizeAlert.addAction(UIAlertAction(title: size.size, style: .default, handler: { [weak self] _ in
-                self?.handleAddToCart(size: size, product: product)
-            }))
+        else {
+            presentSelectableCartConfirmation(product: product)
         }
-        sizeAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
-        present(sizeAlert, animated: true, completion: nil)
     }
     
     @objc private func didTapFilterButton() {
@@ -255,6 +231,25 @@ class StoreBestSellersViewController: UIViewController {
     
     @objc private func refreshData(_ sender: UIRefreshControl) {
         viewModel.setup()
+    }
+    
+    private func presentUnitaryCartConfirmation(product: StoreProduct) {
+        guard let size = product.sizes[safe: 0] else { return }
+         handleAddToCart(size: size, product: product)
+         let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Você adicionou um \(product.name.lowercased()) de tamanho \(size.size)", preferredStyle: .alert)
+             sizeAlert.addAction(UIAlertAction(title: "OK", style: .cancel))
+         present(sizeAlert, animated: true)
+    }
+    
+    private func presentSelectableCartConfirmation(product: StoreProduct) {
+        let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Agora selecione o tamanho de \(product.name.lowercased()):", preferredStyle: .alert)
+        for size in product.sizes where size.available {
+            sizeAlert.addAction(UIAlertAction(title: size.size, style: .default, handler: { [weak self] _ in
+                self?.handleAddToCart(size: size, product: product)
+            }))
+        }
+        sizeAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        present(sizeAlert, animated: true, completion: nil)
     }
 }
 
