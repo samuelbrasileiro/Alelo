@@ -210,6 +210,14 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func didTapAddToCart(_ product: StoreProduct) {
+        if product.sizes.count == 1,
+           let size = product.sizes[safe: 0] {
+            handleAddToCart(size: size, product: product)
+            let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Você adicionou um \(product.name.lowercased()) de tamanho \(size.size)", preferredStyle: .alert)
+                sizeAlert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            present(sizeAlert, animated: true)
+            return
+        }
         print("Did tap to add \(product.name) into cart")
         let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Agora selecione o tamanho de \(product.name.lowercased()):", preferredStyle: .alert)
         for size in product.sizes where size.available {
