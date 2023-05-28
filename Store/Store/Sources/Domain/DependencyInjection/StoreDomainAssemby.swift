@@ -14,7 +14,7 @@ class StoreDomainAssembly: Assembly {
         registerCartDataService(container)
         registerStoreBestSellersProvider(container)
         registerAddToCartProvider(container)
-        registerRemoveFromCartProvider(container)
+        registerUpdateCartProvider(container)
         registerRetrieveCartProvider(container)
         registerRetrieveCartCountProvider(container)
     }
@@ -46,10 +46,10 @@ class StoreDomainAssembly: Assembly {
         }
     }
     
-    private func registerRemoveFromCartProvider(_ container: DependencyContainer) {
-        container.register(RemoveFromCartProviderProtocol.self) { resolver in
+    private func registerUpdateCartProvider(_ container: DependencyContainer) {
+        container.register(UpdateCartProviderProtocol.self) { resolver in
             let service = resolver.resolve(CartDataServiceProtocol.self)
-            return RemoveFromCartProvider(service: service)
+            return UpdateCartProvider(service: service)
         }
     }
     

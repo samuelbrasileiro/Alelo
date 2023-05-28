@@ -9,7 +9,7 @@ import Foundation
 
 protocol CartDataServiceProtocol {
     func add(product: StoreCartProduct)
-    func remove(product: StoreCartProduct)
+    func update(product: StoreCartProduct)
     func getAll() -> [StoreCartProduct]
     func getCount() -> Int
 }

@@ -1,5 +1,5 @@
 //
-//  RemoveFromCartProvider.swift
+//  UpdateCartProvider.swift
 //  Store
 //
 //  Created by Samuel Brasileiro on 28/05/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RemoveFromCartProvider: RemoveFromCartProviderProtocol {
+class UpdateCartProvider: UpdateCartProviderProtocol {
     
     private var service: CartDataServiceProtocol
     
@@ -16,6 +16,6 @@ class RemoveFromCartProvider: RemoveFromCartProviderProtocol {
     }
     
     func execute(product: StoreCartProduct, completion: @escaping (Result<Void, Error>) -> Void) {
-        service.remove(product: product)
+        service.update(product: product)
     }
 }

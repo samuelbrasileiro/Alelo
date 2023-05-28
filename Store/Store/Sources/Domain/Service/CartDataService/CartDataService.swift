@@ -32,11 +32,11 @@ public class CartDataService: CartDataServiceProtocol {
         StoreCartObserver.shared.didUpdateCart.send(())
     }
     
-    func remove(product: StoreCartProduct) {
+    func update(product: StoreCartProduct) {
         guard let index = products.firstIndex(where: {$0.chosenSize.sku == product.chosenSize.sku}),
               let product = products[safe: index] else { return }
         if product.quantity > 0 {
-            products[index].quantity -= 1
+            products[index].quantity = product.quantity
         } else {
             products.remove(at: index)
         }
