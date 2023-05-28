@@ -224,9 +224,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
             setDiscountPrice(value: product.regularPrice)
             discountPercentageLabel.text = product.discountPercentage
         }
-        if let url = URL(string: product.image) {
-            productImageView.sd_setImage(with: url)
-        }
+        productImageView.sd_setImage(with: URL(string: product.image), placeholderImage: CoreImage.unavailableImage.image)
     }
     
     // MARK: - PRIVATE METHODS
