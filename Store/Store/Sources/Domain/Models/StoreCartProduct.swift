@@ -9,6 +9,6 @@ import Foundation
 
 public struct StoreCartProduct {
     let chosenSize: StoreSize
-    var quantity: Int = 0
+    var quantity: Int = 1
     let item: StoreProduct
 }

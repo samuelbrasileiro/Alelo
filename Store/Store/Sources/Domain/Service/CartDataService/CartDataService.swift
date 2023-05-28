@@ -44,4 +44,11 @@ public class CartDataService: CartDataServiceProtocol {
     func getAll() -> [StoreCartProduct] {
         return products
     }
+    
+    func getCount() -> Int {
+        let count = products.reduce(0) {partialResult, item in
+            return partialResult + item.quantity
+        }
+        return count
+    }
 }
