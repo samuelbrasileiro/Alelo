@@ -40,4 +40,8 @@ public class CartDataService: CartDataServiceProtocol {
             products.remove(at: index)
         }
     }
+    
+    func getAll() -> [StoreCartProduct] {
+        return products
+    }
 }
