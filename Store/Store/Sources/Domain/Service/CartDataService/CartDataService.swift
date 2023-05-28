@@ -29,6 +29,7 @@ public class CartDataService: CartDataServiceProtocol {
         } else {
             products.append(product)
         }
+        StoreCartObserver.shared.didUpdateCart.send(())
     }
     
     func remove(product: StoreCartProduct) {
@@ -39,6 +40,7 @@ public class CartDataService: CartDataServiceProtocol {
         } else {
             products.remove(at: index)
         }
+        StoreCartObserver.shared.didUpdateCart.send(())
     }
     
     func getAll() -> [StoreCartProduct] {

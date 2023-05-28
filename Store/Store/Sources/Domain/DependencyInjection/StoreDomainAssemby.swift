@@ -27,7 +27,7 @@ class StoreDomainAssembly: Assembly {
     }
     
     private func registerCartDataService(_ container: DependencyContainer) {
-        container.register(CartDataService.self) { resolver in
+        container.register(CartDataServiceProtocol.self) { resolver in
             return CartDataService.shared
         }
     }

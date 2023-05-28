@@ -12,3 +12,8 @@ enum StoreBestSellersViewState {
     case success
     case error(Error)
 }
+
+enum StoreCartCountViewState {
+    case success(Int)
+    case error(Error)
+}

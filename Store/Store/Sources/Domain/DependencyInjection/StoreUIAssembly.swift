@@ -17,7 +17,11 @@ class StoreUIAssembly: Assembly {
     private func registerStoreBestSellersViewModel(_ container: DependencyContainer) {
         container.register(StoreBestSellersViewModel.self) { (container) in
             let bestSellersProvider = container.resolve(StoreBestSellersProviderProtocol.self)
-            return StoreBestSellersViewModel(bestSellersProvider: bestSellersProvider)
+            let addToCartProvider = container.resolve(AddToCartProviderProtocol.self)
+            let retrieveCartCountProvider = container.resolve(RetrieveCartCountProviderProtocol.self)
+            return StoreBestSellersViewModel(bestSellersProvider: bestSellersProvider,
+                                             addToCartProvider: addToCartProvider,
+                                             retrieveCartCountProvider: retrieveCartCountProvider)
         }
     }
 

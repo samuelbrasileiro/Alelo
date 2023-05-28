@@ -17,7 +17,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     static let cellReuseIdentifier = "StoreProductCellReuseIdentifier"
     var subscribers: Set<AnyCancellable> = []
-    let tapAddToCartButton: PassthroughSubject<StoreProductCell, Never> = .init()
+    let tapAddToCartButton: PassthroughSubject<StoreProduct?, Never> = .init()
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
     var shimmeringAnimatedItems: [UIView] {
         [
@@ -114,11 +114,14 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     lazy private var addToCartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Add to cart", for: .normal)
-        button.backgroundColor = .systemGreen
-        button.layer.cornerRadius = 4
+        button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
+        button.backgroundColor = .label
+        button.tintColor = .systemBackground
+        button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         button.addTarget(self, action: #selector(didTapAddToCartButton(sender:)), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     
@@ -161,6 +164,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         contentView.addSubview(discountLabel)
         contentView.addSubview(installmentsLabel)
         contentView.addSubview(sizesStack)
+        contentView.addSubview(addToCartButton)
     }
     
     private func setupConstraints() {
@@ -169,6 +173,11 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            
+            addToCartButton.centerYAnchor.constraint(equalTo: productImageView.bottomAnchor),
+            addToCartButton.leadingAnchor.constraint(greaterThanOrEqualTo: discountPercentageLabel.trailingAnchor, constant: 8),
+            addToCartButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            addToCartButton.widthAnchor.constraint(equalTo: addToCartButton.heightAnchor),
             
             promoLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 8),
             promoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -217,6 +226,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         discountLabel.isHidden = !product.onSale
         promoLabel.isHidden = !product.onSale
         discountPercentageLabel.isHidden = !product.onSale
+        addToCartButton.isHidden = false
         
         setSizes(sizes: product.sizes)
         
@@ -234,7 +244,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     }
     
     @objc private func didTapAddToCartButton(sender: UIButton) {
-        tapAddToCartButton.send(self)
+        tapAddToCartButton.send(product)
     }
     
     private func setDiscountPrice(value: String) {

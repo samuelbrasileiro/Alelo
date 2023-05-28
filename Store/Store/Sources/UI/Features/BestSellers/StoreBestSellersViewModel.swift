@@ -16,6 +16,8 @@ class StoreBestSellersViewModel: ObservableObject {
     // MARK: - PUBLIC PROPERTIES
     
     let changeViewState: PassthroughSubject<StoreBestSellersViewState, Never> = .init()
+    let cartCountViewState: PassthroughSubject<StoreCartCountViewState, Never> = .init()
+    
     var products: [StoreProduct] {
         if filter == nil {
             return allProducts
@@ -29,19 +31,26 @@ class StoreBestSellersViewModel: ObservableObject {
     // MARK: - PRIVATE PROPERTIES
     
     private let bestSellersProvider: StoreBestSellersProviderProtocol
+    private let addToCartProvider: AddToCartProviderProtocol
+    private let retrieveCartCountProvider: RetrieveCartCountProviderProtocol
     private var allProducts: [StoreProduct] = []
     private var filteredProducts: [StoreProduct] = []
     
     // MARK: - INITIALIZERS
     
-    init(bestSellersProvider: StoreBestSellersProviderProtocol) {
+    init(bestSellersProvider: StoreBestSellersProviderProtocol,
+         addToCartProvider: AddToCartProviderProtocol,
+         retrieveCartCountProvider: RetrieveCartCountProviderProtocol) {
         self.bestSellersProvider = bestSellersProvider
+        self.addToCartProvider = addToCartProvider
+        self.retrieveCartCountProvider = retrieveCartCountProvider
     }
     
     // MARK: - PUBLIC METHODS
     
     func setup() {
         retrieveBestSellers()
+        retrieveCartCount()
         changeViewState.send(.loading)
     }
     
@@ -53,6 +62,25 @@ class StoreBestSellersViewModel: ObservableObject {
     func removeFilter() {
         filter = nil
         applyFilter()
+    }
+    
+    func retrieveCartCount() {
+        retrieveCartCountProvider.execute { [weak self] result in
+            switch result {
+            case .success(let count):
+                self?.cartCountViewState.send(.success(count))
+            case .failure(let error):
+                self?.cartCountViewState.send(.error(error))
+            }
+        }
+    }
+    
+    func addToCart(size: StoreSize, product: StoreProduct) {
+        addToCartProvider.execute(product: .init(chosenSize: size, item: product)) { [weak self] result in
+            if case .failure(let error) = result {
+                self?.changeViewState.send(.error(error))
+            }
+        }
     }
     
     // MARK: - PRIVATE METHODS

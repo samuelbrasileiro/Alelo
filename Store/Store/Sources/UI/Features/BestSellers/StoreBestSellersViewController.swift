@@ -100,6 +100,18 @@ class StoreBestSellersViewController: UIViewController {
             .sink { [weak self] viewState in
                 self?.handleViewState(viewState)
             }.store(in: &subscriptions)
+        
+        viewModel.cartCountViewState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] viewState in
+                self?.handleCartCountViewState(viewState)
+            }.store(in: &subscriptions)
+        
+        StoreCartObserver.shared.didUpdateCart
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] viewState in
+                self?.viewModel.retrieveCartCount()
+            }.store(in: &subscriptions)
     }
     
     private func setupViewHierarchy() {
@@ -168,7 +180,25 @@ class StoreBestSellersViewController: UIViewController {
         viewModel.removeFilter()
     }
     
+    private func handleAddToCart(size: StoreSize, product: StoreProduct) {
+        print("Adicionado \(product.name) de tamanho \(size.size) ao carrinho")
+        viewModel.addToCart(size: size, product: product)
+    }
+    
+    private func handleCartCountViewState(_ viewState: StoreCartCountViewState) {
+        switch viewState {
+        case .success(let count):
+            setCartCount(count)
+        case .error(let error):
+            handleError(error)
+        }
+    }
+
     // MARK: - PRIVATE METHODS
+    
+    private func setCartCount(_ count: Int) {
+        cartButton.badgeValue = count
+    }
     
     private func didTapProduct(_ product: StoreProduct) {
         print("Did tap cell of \(product.name)")
@@ -177,6 +207,18 @@ class StoreBestSellersViewController: UIViewController {
     
     @objc private func didTapCartButton() {
         delegate?.storeBestSellersViewController(self, goToCart: ())
+    }
+    
+    private func didTapAddToCart(_ product: StoreProduct) {
+        print("Did tap to add \(product.name) into cart")
+        let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Agora selecione o tamanho de \(product.name.lowercased()):", preferredStyle: .alert)
+        for size in product.sizes where size.available {
+            sizeAlert.addAction(UIAlertAction(title: size.size, style: .default, handler: { [weak self] _ in
+                self?.handleAddToCart(size: size, product: product)
+            }))
+        }
+        sizeAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        present(sizeAlert, animated: true, completion: nil)
     }
     
     @objc private func didTapFilterButton() {
@@ -230,6 +272,13 @@ extension StoreBestSellersViewController: UICollectionViewDelegateFlowLayout, UI
             .receive(on: DispatchQueue.main)
             .sink { [weak self] product in
                 self?.didTapProduct(product)
+            }
+            .store(in: &cell.subscribers)
+        
+        cell.tapAddToCartButton.compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] product in
+                self?.didTapAddToCart(product)
             }
             .store(in: &cell.subscribers)
         return cell
