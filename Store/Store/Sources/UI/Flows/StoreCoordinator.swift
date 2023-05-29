@@ -14,7 +14,7 @@ public protocol StoreCoordinatorDelegate: AnyObject { }
 public final class StoreCoordinator: CoreCoordinator {
     
     public enum Route: RouteProtocol {
-        case productDetails
+        case productDetails(product: StoreProduct)
         case bestSellers
         case cart
     }
@@ -50,7 +50,7 @@ public final class StoreCoordinator: CoreCoordinator {
         switch route {
         case .bestSellers: return makeStoreBestSellersViewController()
         case .cart: return makeStoreCartViewController()
-        case .productDetails: return UIViewController()
+        case .productDetails(let product): return makeStoreProductDetailsViewController(product: product)
         }
     }
 }

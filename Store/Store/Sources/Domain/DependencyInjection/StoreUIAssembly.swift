@@ -14,6 +14,8 @@ class StoreUIAssembly: Assembly {
         registerStoreBestSellersViewController(container)
         registerStoreCartViewModel(container)
         registerStoreCartViewController(container)
+        registerStoreProductDetailsViewModel(container)
+        registerStoreProductDetailsViewController(container)
     }
 
     private func registerStoreBestSellersViewModel(_ container: DependencyContainer) {
@@ -49,6 +51,23 @@ class StoreUIAssembly: Assembly {
         container.register(StoreCartViewController.self) { (container) in
             let viewModel = container.resolve(StoreCartViewModel.self)
             return StoreCartViewController(viewModel: viewModel)
+        }
+    }
+
+    private func registerStoreProductDetailsViewModel(_ container: DependencyContainer) {
+        container.register(StoreProductDetailsViewModel.self) { (container, product: StoreProduct) in
+            let addToCartProvider = container.resolve(AddToCartProviderProtocol.self)
+            let retrieveCartCountProvider = container.resolve(RetrieveCartCountProviderProtocol.self)
+            return StoreProductDetailsViewModel(product: product,
+                                                addToCartProvider: addToCartProvider,
+                                                retrieveCartCountProvider: retrieveCartCountProvider)
+        }
+    }
+
+    private func registerStoreProductDetailsViewController(_ container: DependencyContainer) {
+        container.register(StoreProductDetailsViewController.self) { (container, product: StoreProduct) in
+            let viewModel = container.resolve(StoreProductDetailsViewModel.self, argument: product)
+            return StoreProductDetailsViewController(viewModel: viewModel)
         }
     }
 }

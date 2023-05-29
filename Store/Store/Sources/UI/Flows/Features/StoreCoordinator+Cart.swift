@@ -17,6 +17,6 @@ extension StoreCoordinator {
 
 extension StoreCoordinator: StoreCartViewControllerDelegate {
     func storeCartViewController(_ viewController: StoreCartViewController, goToProduct product: StoreProduct) {
-        navigate(to: .productDetails)
+        navigate(to: .productDetails(product: product))
     }
 }

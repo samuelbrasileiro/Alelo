@@ -17,7 +17,7 @@ extension StoreCoordinator {
 
 extension StoreCoordinator: StoreBestSellersViewControllerDelegate {
     func storeBestSellersViewController(_ viewController: StoreBestSellersViewController, goToProduct product: StoreProduct) {
-        navigate(to: .productDetails)
+        navigate(to: .productDetails(product: product))
     }
     
     func storeBestSellersViewController(_ viewController: StoreBestSellersViewController, goToCart _: Void) {
