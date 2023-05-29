@@ -52,4 +52,8 @@ public class CartDataService: CartDataServiceProtocol {
         }
         return count
     }
+    
+    func clear() {
+        products = []
+    }
 }

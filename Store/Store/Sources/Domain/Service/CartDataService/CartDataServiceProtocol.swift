@@ -12,4 +12,5 @@ protocol CartDataServiceProtocol {
     func update(product: StoreCartProduct)
     func getAll() -> [StoreCartProduct]
     func getCount() -> Int
+    func clear()
 }
