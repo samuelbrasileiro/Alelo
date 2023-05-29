@@ -8,7 +8,11 @@
 import Foundation
 
 public struct StoreCartProduct {
-    let chosenSize: StoreSize
+    var chosenSize: StoreSize
     var quantity: Int = 1
     let item: StoreProduct
+    
+    public static var dirty: StoreCartProduct {
+        return .init(chosenSize: .dirty, item: .dirty)
+    }
 }

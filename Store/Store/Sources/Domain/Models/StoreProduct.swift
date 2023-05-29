@@ -33,6 +33,21 @@ public struct StoreProduct: Codable {
         case discountPercentage = "discount_percentage"
         case installments, image, sizes
     }
+    
+    public static var dirty: StoreProduct {
+        return .init(name: "",
+                     style: "",
+                     codeColor: "",
+                     colorSlug: "",
+                     color: "",
+                     onSale: false,
+                     regularPrice: "",
+                     actualPrice: "",
+                     discountPercentage: "",
+                     installments: "",
+                     image: "",
+                     sizes: [])
+    }
 }
 
 // MARK: - StoreSize
@@ -40,4 +55,10 @@ struct StoreSize: Codable {
     var available: Bool
     var size: String
     var sku: String
+    
+    public static var dirty: StoreSize {
+        return .init(available: false,
+                     size: "",
+                     sku: "")
+    }
 }
