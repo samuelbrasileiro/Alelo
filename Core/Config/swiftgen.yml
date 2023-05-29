@@ -1,0 +1,7 @@
+#core
+xcassets:
+  inputs:
+    - ../Core/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift5
+      output: ../Core/Resources/Generated/Assets.swift
