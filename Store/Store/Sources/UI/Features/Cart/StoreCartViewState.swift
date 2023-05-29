@@ -10,6 +10,5 @@ import Foundation
 enum StoreCartViewState {
     case loading
     case success
-    case removeProduct(indexPath: IndexPath)
     case error(Error)
 }

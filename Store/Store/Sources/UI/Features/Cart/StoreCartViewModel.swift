@@ -79,11 +79,6 @@ class StoreCartViewModel: ObservableObject {
         changeViewState.send(.success)
     }
     
-    private func handleRemoveProductSuccess(_ indexPath: IndexPath) {
-        products.remove(at: indexPath.row)
-        changeViewState.send(.removeProduct(indexPath: indexPath))
-    }
-    
     private func getTotalPrice() -> Double {
         let prices = products.map { $0.item.actualPrice }
         var total: Double = 0.0

@@ -133,8 +133,6 @@ class StoreCartViewController: UIViewController {
             handleSuccess()
         case .error(let error):
             handleError(error)
-        case .removeProduct(let indexPath):
-            handleRemoveProduct(indexPath: indexPath)
         }
     }
     
@@ -147,12 +145,6 @@ class StoreCartViewController: UIViewController {
         isLoading = false
         confirmationView.update(priceText: viewModel.getTotalPriceText())
         confirmationView.disabled = viewModel.isCartEmpty()
-    }
-    
-    private func handleRemoveProduct(indexPath: IndexPath) {
-        tableView.beginUpdates()
-        tableView.deleteRows(at: [indexPath], with: .automatic)
-        tableView.endUpdates()
     }
     
     private func handleError(_ error: Error) {
