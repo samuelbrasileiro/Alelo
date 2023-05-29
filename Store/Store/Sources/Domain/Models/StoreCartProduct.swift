@@ -16,3 +16,11 @@ public struct StoreCartProduct {
         return .init(chosenSize: .dirty, item: .dirty)
     }
 }
+
+// MARK: - Equatable
+
+extension StoreCartProduct: Equatable {
+    public static func == (lhs: StoreCartProduct, rhs: StoreCartProduct) -> Bool {
+        lhs.chosenSize.sku == rhs.chosenSize.sku
+    }
+}
