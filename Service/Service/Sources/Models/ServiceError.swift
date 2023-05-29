@@ -47,7 +47,7 @@ extension ServiceError: LocalizedError {
 }
 
 struct ErrorCodable: Codable {
-    var error: String?
+    var error: String
     var message: String?
     
     var serviceError: ServiceError {
