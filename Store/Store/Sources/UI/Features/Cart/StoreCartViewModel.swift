@@ -62,6 +62,16 @@ class StoreCartViewModel: ObservableObject {
         }
     }
     
+    func getTotalPriceText() -> String {
+        let price = getTotalPrice()
+        let formattedPrice = String(format: "R$ %.2f", price)
+        return formattedPrice
+    }
+    
+    func isCartEmpty() -> Bool {
+        return products.count == 0
+    }
+    
     // MARK: - PRIVATE METHODS
     
     private func handleRetrieveCartProductsSuccess(_ products: [StoreCartProduct]) {
@@ -72,5 +82,17 @@ class StoreCartViewModel: ObservableObject {
     private func handleRemoveProductSuccess(_ indexPath: IndexPath) {
         products.remove(at: indexPath.row)
         changeViewState.send(.removeProduct(indexPath: indexPath))
+    }
+    
+    private func getTotalPrice() -> Double {
+        let prices = products.map { $0.item.actualPrice }
+        var total: Double = 0.0
+        for price in prices {
+            let numericString = price.replacingOccurrences(of: "R$ ", with: "").replacingOccurrences(of: ",", with: ".")
+            if let priceValue = Double(numericString) {
+                total += priceValue
+            }
+        }
+        return total
     }
 }

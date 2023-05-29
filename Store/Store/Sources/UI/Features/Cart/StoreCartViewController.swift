@@ -43,6 +43,20 @@ class StoreCartViewController: UIViewController {
         return refresh
     }()
     
+    lazy private var separatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        view.backgroundColor = .systemGray5
+        return view
+    }()
+    
+    lazy private var confirmationView: StoreValueConfirmationView = {
+        let view = StoreValueConfirmationView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setup(descriptionText: "TOTAL", buttonText: "CONTINUAR")
+        return view
+    }()
     // MARK: - INITIALIZERS
     
     init(viewModel: StoreCartViewModel) {
@@ -81,6 +95,8 @@ class StoreCartViewController: UIViewController {
     
     private func setupViewHierarchy() {
         view.addSubview(tableView)
+        view.addSubview(separatorView)
+        view.addSubview(confirmationView)
     }
     
     private func setupConstraints() {
@@ -88,7 +104,15 @@ class StoreCartViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            
+            separatorView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            separatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            confirmationView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
+            confirmationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            confirmationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            confirmationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -121,6 +145,8 @@ class StoreCartViewController: UIViewController {
     private func handleSuccess() {
         tableView.reloadData()
         isLoading = false
+        confirmationView.update(priceText: viewModel.getTotalPriceText())
+        confirmationView.disabled = viewModel.isCartEmpty()
     }
     
     private func handleRemoveProduct(indexPath: IndexPath) {
