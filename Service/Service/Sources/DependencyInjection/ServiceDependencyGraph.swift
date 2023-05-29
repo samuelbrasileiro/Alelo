@@ -20,16 +20,3 @@ public class ServiceDependencyGraph: DependencyGraph {
         return assemblies
     }
 }
-
-public class MockServiceDependencyGraph: DependencyGraph {
-    
-    private var assemblies: [Assembly] = [
-        ServiceAssembly()
-    ]
-    
-    public init() { }
-    
-    public func build() -> [Assembly] {
-        return assemblies
-    }
-}
