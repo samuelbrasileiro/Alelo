@@ -112,7 +112,7 @@ class StoreCartViewController: UIViewController {
             confirmationView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
             confirmationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             confirmationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            confirmationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            confirmationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
