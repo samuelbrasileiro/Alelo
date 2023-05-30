@@ -169,7 +169,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
     private func setupView() {
         backgroundColor = .systemBackground
         isUserInteractionEnabled = true
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(sender:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         addGestureRecognizer(gesture)
     }
     
@@ -206,7 +206,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         }
     }
     
-    @objc func didTapView(sender: UIButton) {
+    @objc func didTapView() {
         tapView.send(product?.item)
     }
     

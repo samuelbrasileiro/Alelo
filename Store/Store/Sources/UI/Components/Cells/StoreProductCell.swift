@@ -211,7 +211,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     private func setupView() {
         backgroundColor = .systemBackground
         isUserInteractionEnabled = true
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(sender:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         addGestureRecognizer(gesture)
     }
     
@@ -239,7 +239,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     // MARK: - ACTIONS
     
-    @objc func didTapView(sender: UIButton) {
+    @objc func didTapView() {
         tapView.send(product)
     }
     
