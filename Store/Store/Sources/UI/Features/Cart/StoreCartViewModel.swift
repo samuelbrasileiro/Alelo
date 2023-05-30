@@ -80,12 +80,12 @@ class StoreCartViewModel: ObservableObject {
     }
     
     private func getTotalPrice() -> Double {
-        let prices = products.map { $0.item.actualPrice }
         var total: Double = 0.0
-        for price in prices {
+        for product in products {
+            let price = product.item.actualPrice
             let numericString = price.replacingOccurrences(of: "R$ ", with: "").replacingOccurrences(of: ",", with: ".")
             if let priceValue = Double(numericString) {
-                total += priceValue
+                total += priceValue * Double(product.quantity)
             }
         }
         return total
