@@ -57,6 +57,4 @@ class StoreProductDetailsViewModel {
             }
         }
     }
-    
-    // MARK: - PRIVATE METHODS
 }
