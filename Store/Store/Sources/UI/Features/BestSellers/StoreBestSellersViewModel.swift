@@ -19,10 +19,15 @@ class StoreBestSellersViewModel: ObservableObject {
     let cartCountViewState: PassthroughSubject<StoreCartCountViewState, Never> = .init()
     
     var products: [StoreProduct] {
-        if filter == nil {
-            return allProducts
-        } else {
-            return filteredProducts
+        get {
+            if filter == nil {
+                return allProducts
+            } else {
+                return filteredProducts
+            }
+        }
+        set {
+            allProducts = newValue
         }
     }
     
