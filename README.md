@@ -145,3 +145,35 @@ To visualize the dependency graph of the Alelo Challenge project locally, follow
 2. After running the command, the dependency graph image will be generated and displayed.
 
     ![Dependency Graph Image](/public/images/dependency_graph.png "Dependency Graph Image")
+
+---
+
+## Coding Patterns
+
+1. Modularity
+    
+    The project is developed with a modular approach, where each module has a clearly defined responsibility and is independent from others. This allows for proper separation of functionalities and better code organization.
+
+2. Architecture
+
+    Alelo Challenge follows an **MVVM (Model-View-ViewModel)** based architecture. The MVVM architecture is an approach that separates the presentation logic from the user interface, facilitating code testability, reusability, and maintainability. In this architecture, the Model layer represents the data and business rules, the View layer is responsible for displaying the user interface, and the ViewModel layer acts as a bridge between the data and the user interface.
+
+3. Project Generation
+
+    **XcodeGen** is a tool used in the project to generate the .xcodeproj file from a YAML configuration file. It simplifies the project configuration process by automating the creation of targets, schemes, and other Xcode-related settings, making continuous collaboration easier. 
+
+4. Resources Generation
+   
+   **SwiftGen** is a tool used in the project to generate typed Swift code for resources such as images, strings, fonts, and colors. It analyzes the project's resource files and generates a series of enums and extensions that facilitate safe and typo-free access to resources.
+
+5. Protocol Oriented Programming
+
+    The project utilizes the **Protocol-Oriented Programming** code pattern. POP allows for the creation of more generic, reusable, and flexible code by promoting code composition and modularity.
+
+6. Use Cases
+   
+    Use cases (providers) are used to decouple the usage rules from the View Models, achieving a more flexible architecture.
+
+7. Clean Code
+
+    The Alelo Challenge project is developed based on the principles of **Clean Code**, which emphasize the readability, simplicity, and maintainability of the code. The code have atomic and cohesive functions and classes, descriptive names for variables and methods, avoiding duplication, and maintaining an easily understandable structure.
