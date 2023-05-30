@@ -35,7 +35,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     // MARK: - UI
     
-    lazy private var productImageView: UIImageView = {
+    lazy var productImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
@@ -46,7 +46,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     }()
     
     
-    lazy private var promoLabel: UILabel = {
+    lazy var promoLabel: UILabel = {
         let label = CorePaddedLabel()
         let padding: CGFloat = 4
         label.padding = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
@@ -61,7 +61,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
@@ -70,7 +70,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var priceLabel: UILabel = {
+    lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .bold)
@@ -79,7 +79,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var discountLabel: UILabel = {
+    lazy var discountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .light)
@@ -90,7 +90,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var discountPercentageLabel: UILabel = {
+    lazy var discountPercentageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
@@ -101,7 +101,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var installmentsLabel: UILabel = {
+    lazy var installmentsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 10, weight: .light)
@@ -111,7 +111,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return label
     }()
 
-    lazy private var addToCartButton: UIButton = {
+    lazy var addToCartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
@@ -125,7 +125,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         return button
     }()
     
-    lazy private var sizesStack: UIStackView = {
+    lazy var sizesStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
@@ -237,15 +237,17 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         productImageView.sd_setImage(with: URL(string: product.image), placeholderImage: CoreImage.unavailableImage.image)
     }
     
-    // MARK: - PRIVATE METHODS
+    // MARK: - ACTIONS
     
-    @objc private func didTapView(sender: UIButton) {
+    @objc func didTapView(sender: UIButton) {
         tapView.send(product)
     }
     
-    @objc private func didTapAddToCartButton(sender: UIButton) {
+    @objc func didTapAddToCartButton(sender: UIButton) {
         tapAddToCartButton.send(product)
     }
+    
+    // MARK: - PRIVATE METHODS
     
     private func setDiscountPrice(value: String) {
         let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: value)

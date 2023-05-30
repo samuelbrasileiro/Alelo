@@ -43,7 +43,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         return image
     }()
     
-    lazy private var nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
@@ -52,7 +52,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var priceLabel: UILabel = {
+    lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .bold)
@@ -61,7 +61,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var discountLabel: UILabel = {
+    lazy var discountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .light)
@@ -72,7 +72,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         return label
     }()
     
-    lazy private var sizeLabel: UILabel = {
+    lazy var sizeLabel: UILabel = {
         let label = CorePaddedLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.padding = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
@@ -86,7 +86,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         return label
     }()
 
-    lazy private var countStepper: UIStepper = {
+    lazy var countStepper: UIStepper = {
         let stepper = UIStepper()
         stepper.translatesAutoresizingMaskIntoConstraints = false
         stepper.minimumValue = 0
@@ -94,7 +94,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         return stepper
     }()
     
-    lazy private var countLabel: UILabel = {
+    lazy var countLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .light)
@@ -192,23 +192,25 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         productImageView.sd_setImage(with: URL(string: product.item.image), placeholderImage: CoreImage.unavailableImage.image)
     }
     
-    // MARK: - PRIVATE METHODS
+    // MARK: - ACTIONS
     
-    @objc private func didTapView(sender: UIButton) {
-        tapView.send(product?.item)
-    }
-    
-    @objc private func stepperDidChange(sender: UIStepper) {
-        product?.quantity = Int(countStepper.value)
-        setCountLabel(value: Int(countStepper.value))
+    @objc func stepperDidChange(sender: UIStepper) {
+        product?.quantity = Int(sender.value)
+        setCountLabel(value: Int(sender.value))
         tapUpdateCartButton.send(product)
         if Int(countStepper.value) == 0 {
             let minimum = 1
             product?.quantity = minimum
-            countStepper.value = Double(minimum)
+            sender.value = Double(minimum)
             setCountLabel(value: minimum)
         }
     }
+    
+    @objc func didTapView(sender: UIButton) {
+        tapView.send(product?.item)
+    }
+    
+    // MARK: - PRIVATE METHODS
     
     private func setDiscountPrice(value: String) {
         let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: value)

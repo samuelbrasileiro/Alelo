@@ -180,23 +180,19 @@ class StoreBestSellersViewController: UIViewController {
             handleError(error)
         }
     }
-
-    // MARK: - PRIVATE METHODS
     
-    private func setCartCount(_ count: Int) {
-        cartButton.badgeValue = count
-    }
+    // MARK: - ACTIONS
     
-    private func didTapProduct(_ product: StoreProduct) {
+    func didTapProduct(_ product: StoreProduct) {
         print("Did tap cell of \(product.name)")
         delegate?.storeBestSellersViewController(self, goToProduct: product)
     }
     
-    @objc private func didTapCartButton() {
+    @objc func didTapCartButton() {
         delegate?.storeBestSellersViewController(self, goToCart: ())
     }
     
-    private func didTapAddToCart(_ product: StoreProduct) {
+    func didTapAddToCart(_ product: StoreProduct) {
         if product.sizes.count == 1 {
             presentUnitaryCartConfirmation(product: product)
         }
@@ -205,7 +201,17 @@ class StoreBestSellersViewController: UIViewController {
         }
     }
     
-    @objc private func didTapFilterButton() {
+    @objc func didTapFilterButton() {
+        presentFilterSheet()
+    }
+    
+    // MARK: - PRIVATE METHODS
+    
+    private func setCartCount(_ count: Int) {
+        cartButton.badgeValue = count
+    }
+    
+    private func presentFilterSheet() {
         let filterSheet = UIAlertController(title: "Selecione um filtro", message: nil, preferredStyle: .actionSheet)
         
         filterSheet.addAction(UIAlertAction(title: "Em Promoção", style: .default, handler: { [weak self] _ in

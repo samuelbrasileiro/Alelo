@@ -264,9 +264,9 @@ class StoreProductDetailsViewController: UIViewController {
         viewModel.addToCart(size: size, product: product)
     }
     
-    // MARK: - PRIVATE METHODS
+    // MARK: - ACTIONS
     
-    @objc private func didTapAddToCartButton(sender: UIButton) {
+    @objc func didTapAddToCartButton(sender: UIButton) {
         if viewModel.product.sizes.count == 1 {
             presentUnitaryCartConfirmation(product: viewModel.product)
         }
@@ -275,10 +275,12 @@ class StoreProductDetailsViewController: UIViewController {
         }
     }
     
-    @objc private func didTapCartButton() {
+    @objc func didTapCartButton() {
         delegate?.storeProductDetailsViewController(self, goToCart: ())
     }
     
+    // MARK: - PRIVATE METHODS
+
     private func setCartCount(_ count: Int) {
         cartButton.badgeValue = count
     }

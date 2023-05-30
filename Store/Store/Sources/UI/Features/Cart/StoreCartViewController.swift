@@ -152,20 +152,22 @@ class StoreCartViewController: UIViewController {
         isLoading = false
     }
 
-    // MARK: - PRIVATE METHODS
+    // MARK: - ACTIONS
     
-    private func didTapProduct(_ product: StoreProduct) {
+    func didTapProduct(_ product: StoreProduct) {
         print("Did tap cell of \(product.name)")
         delegate?.storeCartViewController(self, goToProduct: product)
     }
     
-    private func didTapUpdateCart(_ product: StoreCartProduct) {
+    func didTapUpdateCart(_ product: StoreCartProduct) {
         if product.quantity == 0 {
             presentRemovalConfirmation(product: product)
         } else {
             viewModel.updateCart(product: product)
         }
     }
+    
+    // MARK: - PRIVATE METHODS
     
     private func endRefreshing() {
         if refresh.isRefreshing {

@@ -22,7 +22,7 @@ class StoreValueConfirmationView: UIView {
     
     // MARK: - UI
     
-    lazy private var descriptionLabel: UILabel = {
+    lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .bold)
@@ -32,7 +32,7 @@ class StoreValueConfirmationView: UIView {
         return label
     }()
     
-    lazy private var priceLabel: UILabel = {
+    lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .bold)
@@ -41,7 +41,7 @@ class StoreValueConfirmationView: UIView {
         return label
     }()
     
-    lazy private var completeButton: UIButton = {
+    lazy var completeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .label
@@ -113,11 +113,13 @@ class StoreValueConfirmationView: UIView {
         priceLabel.text = priceText
     }
     
-    // MARK: - PRIVATE METHODS
+    // MARK: - ACTIONS
     
-    @objc private func didTapCompleteButton(sender: UIButton) {
+    @objc func didTapCompleteButton(sender: UIButton) {
         tapCompleteButton.send(())
     }
+    
+    // MARK: - PRIVATE METHODS
     
     private func changeVisibility() {
         let buttonBackgroundColor: UIColor = disabled ? .systemGray4 : .label
