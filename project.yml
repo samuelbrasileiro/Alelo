@@ -32,6 +32,7 @@ targets:
     scheme:
       testTargets:
         - ServiceTests
+        - StoreTests
       gatherCoverageData: true
  
   Core:
@@ -97,6 +98,18 @@ targets:
       - package: Commons
       - package: SDWebImage
       - package: UIView-Shimmer
+
+  StoreTests:
+    templates:
+      - unit-tests
+      - groupable
+    templateAttributes:
+      groupName: Store
+      targetName: StoreTests
+    dependencies:
+      - target: Store
+      - target: ModuleIntegrator
+      - package: DependencyInjection
         
 targetTemplates:
   groupable:
