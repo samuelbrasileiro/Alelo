@@ -10,6 +10,22 @@ The project is developed and documented by Samuel Brasileiro.
 
 ---
 
+## Summary
+- [Running Locally](#running-locally)
+    - [Setting up the environment](#setting-up-the-environment)
+    - [Creating Project](#creating-project)
+- [Packages](#packages)
+    - [Commons](/Commons/README.md)
+    - [Dependency Injection](/DependencyInjection/README.md)
+- [Modules](#modules)
+    - [Service](/Service/README.md)
+    - [Core](/Core/README.md)
+    - [Store]()
+- [Tests](#tests)
+- [Visualizing Dependency Graph](#visualizing-dependency-graph)
+- [Coding Patterns](#coding-patterns)
+---
+
 ## Running Locally
 
 To run the project locally, follow the setup instructions below.
