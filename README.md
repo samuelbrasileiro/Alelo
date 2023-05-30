@@ -20,7 +20,7 @@ The project is developed and documented by Samuel Brasileiro.
 - [Modules](#modules)
     - [Service](/Service/README.md)
     - [Core](/Core/README.md)
-    - [Store]()
+    - [Store](/Service/README.md)
 - [Tests](#tests)
 - [Visualizing Dependency Graph](#visualizing-dependency-graph)
 - [Coding Patterns](#coding-patterns)
@@ -114,6 +114,8 @@ The Alelo Challenge project is organized into different modules, each serving a 
 
     The `Store` is responsible for managing the shopping-related functionality of the application. It includes views, view controllers, coordinators, providers, and network requests necessary for handling the shopping flow. The module focuses on presenting and managing the user interface components related to shopping, such as product listings, shopping cart management, and order processing.
     
+    **[Read Documentation](Store/README.md)**
+
 4. ModuleIntegration
 
     The `ModuleIntegration` module facilitates the integration of various modules within the Alelo Challenge application. It provides a centralized mechanism for coordinating the interactions between different modules, enabling seamless communication and data exchange. This module ensures proper integration and collaboration among different components of the application.
