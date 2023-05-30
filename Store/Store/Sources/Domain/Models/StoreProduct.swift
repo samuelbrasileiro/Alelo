@@ -10,10 +10,10 @@ import Foundation
 // MARK: - StoreProduct
 public struct StoreProduct: Codable {
     var name: String
-    var style: String
-    var codeColor: String
-    var colorSlug: String
-    var color: String
+    var style: String?
+    var codeColor: String?
+    var colorSlug: String?
+    var color: String?
     var onSale: Bool
     var regularPrice: String
     var actualPrice: String

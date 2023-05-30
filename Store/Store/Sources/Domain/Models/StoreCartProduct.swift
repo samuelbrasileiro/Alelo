@@ -10,7 +10,7 @@ import Foundation
 public struct StoreCartProduct {
     var chosenSize: StoreSize
     var quantity: Int = 1
-    let item: StoreProduct
+    var item: StoreProduct
     
     public static var dirty: StoreCartProduct {
         return .init(chosenSize: .dirty, item: .dirty)
