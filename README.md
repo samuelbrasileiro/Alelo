@@ -56,7 +56,7 @@ To create and run the project locally, perform the following steps:
 
 1. Clone the project repository:
     ```bash
-    git clone https://github.com/samuelbrasileiro/AleloChallenge.git
+    git clone https://github.com/samuelbrasileiro/Alelo.git
     ```
 
 2. Navigate to the project directory:
