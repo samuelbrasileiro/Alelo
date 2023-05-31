@@ -29,7 +29,7 @@ The project is developed and documented by Samuel Brasileiro.
 
 ## Video Simulation
 
-<iframe src="https://drive.google.com/file/d/1_d7ZEFqVhT3KCC--nQywqh08GiIBwqJQ/preview" width="640" height="480" allow="autoplay"></iframe>
+[![Video Simulation](https://drive.google.com/uc?id=1aHrsI8KS-jMVHyqLxW4LONHwPy-4HKgD)](https://drive.google.com/file/d/1_d7ZEFqVhT3KCC--nQywqh08GiIBwqJQ/preview) 
 
 ## Running Locally
 
