@@ -15,7 +15,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     // MARK: - PUBLIC PROPERTIES
     
-    static let cellReuseIdentifier = "StoreProductCellReuseIdentifier"
+    static let cellReuseIdentifier = Localization.Components.Cells.Product.cellReuseIdentifier
     var subscribers: Set<AnyCancellable> = []
     let tapAddToCartButton: PassthroughSubject<StoreProduct?, Never> = .init()
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
@@ -41,7 +41,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         image.contentMode = .scaleAspectFill
         image.layer.masksToBounds = true
         image.layer.cornerRadius = 4
-        image.image = .init(systemName: "tshirt.fill")
+        image.image = CoreImage.unavailableImage.image
         return image
     }()
     
@@ -53,7 +53,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .regular)
         label.numberOfLines = 1
-        label.text = "PROMO"
+        label.text = Localization.Components.Cells.Product.PromoLabel.text
         label.backgroundColor = .label
         label.textColor = .systemBackground
         label.layoutIfNeeded()
@@ -66,7 +66,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
         label.numberOfLines = 1
-        label.text = "placeholder"
+        label.text = Localization.Components.Cells.Product.NameLabel.placeholder
         return label
     }()
     
@@ -75,7 +75,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Components.Cells.Product.PriceLabel.placeholder
         return label
     }()
     
@@ -85,7 +85,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         label.font = .systemFont(ofSize: 12, weight: .light)
         label.textColor = .systemGray
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Components.Cells.Product.DiscountLabel.placeholder
         label.isHidden = true
         return label
     }()
@@ -96,7 +96,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         label.font = .systemFont(ofSize: 15, weight: .light)
         label.textColor = .red
         label.numberOfLines = 1
-        label.text = "00%"
+        label.text = Localization.Components.Cells.Product.DiscountPercentageLabel.placeholder
         label.isHidden = true
         return label
     }()
@@ -107,7 +107,7 @@ class StoreProductCell: UICollectionViewCell, ShimmeringViewProtocol {
         label.font = .systemFont(ofSize: 10, weight: .light)
         label.textColor = .systemGray
         label.numberOfLines = 1
-        label.text = "1x R$ 00,00"
+        label.text = Localization.Components.Cells.Product.InstallsmentsLabel.placeholder
         return label
     }()
 

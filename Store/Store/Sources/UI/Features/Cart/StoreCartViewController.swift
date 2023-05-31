@@ -54,7 +54,8 @@ class StoreCartViewController: UIViewController {
     lazy private var confirmationView: StoreValueConfirmationView = {
         let view = StoreValueConfirmationView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setup(descriptionText: "TOTAL", buttonText: "CONTINUAR")
+        view.setup(descriptionText: Localization.Features.Cart.ConfirmationView.descriptionText,
+                   buttonText: Localization.Features.Cart.ConfirmationView.buttonText)
         return view
     }()
     // MARK: - INITIALIZERS
@@ -118,7 +119,7 @@ class StoreCartViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Cart"
+        navigationItem.title = Localization.Features.Cart.navigationTitle
         tableView.refreshControl = refresh
     }
     
@@ -155,7 +156,6 @@ class StoreCartViewController: UIViewController {
     // MARK: - ACTIONS
     
     func didTapProduct(_ product: StoreProduct) {
-        print("Did tap cell of \(product.name)")
         delegate?.storeCartViewController(self, goToProduct: product)
     }
     
@@ -182,11 +182,16 @@ class StoreCartViewController: UIViewController {
     }
     
     private func presentRemovalConfirmation(product: StoreCartProduct) {
-        let removalAlert = UIAlertController(title: "Deseja mesmo remover?", message: "\(product.item.name.lowercased()) vai sentir falta de você!", preferredStyle: .alert)
-        removalAlert.addAction(UIAlertAction(title: "Remover", style: .destructive, handler: { [weak self] _ in
+        let removalAlert = UIAlertController(title: Localization.Features.Cart.RemovalConfirmation.title,
+                                             message: Localization.Features.Cart.RemovalConfirmation.message(product.item.name.lowercased()),
+                                             preferredStyle: .alert)
+        removalAlert.addAction(UIAlertAction(title: Localization.Features.Cart.RemovalConfirmation.remove,
+                                             style: .destructive,
+                                             handler: { [weak self] _ in
             self?.viewModel.updateCart(product: product)
         }))
-        removalAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        removalAlert.addAction(UIAlertAction(title: Localization.Features.Cart.RemovalConfirmation.cancel,
+                                             style: .cancel))
         present(removalAlert, animated: true, completion: nil)
     }
 }

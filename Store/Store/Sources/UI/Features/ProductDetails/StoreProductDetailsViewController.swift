@@ -44,7 +44,7 @@ class StoreProductDetailsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .regular)
         label.numberOfLines = 1
-        label.text = "PROMO"
+        label.text = Localization.Features.ProductDetails.PromoLabel.text
         label.backgroundColor = .label
         label.textColor = .systemBackground
         label.layoutIfNeeded()
@@ -56,7 +56,7 @@ class StoreProductDetailsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
         label.numberOfLines = 0
-        label.text = "placeholder"
+        label.text = Localization.Features.ProductDetails.NameLabel.placeholder
         return label
     }()
     
@@ -65,7 +65,7 @@ class StoreProductDetailsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Features.ProductDetails.PriceLabel.placeholder
         return label
     }()
     
@@ -75,7 +75,7 @@ class StoreProductDetailsViewController: UIViewController {
         label.font = .systemFont(ofSize: 12, weight: .light)
         label.textColor = .systemGray
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Features.ProductDetails.DiscountLabel.placeholder
         label.isHidden = true
         return label
     }()
@@ -86,7 +86,7 @@ class StoreProductDetailsViewController: UIViewController {
         label.font = .systemFont(ofSize: 15, weight: .light)
         label.textColor = .red
         label.numberOfLines = 1
-        label.text = "00%"
+        label.text = Localization.Features.ProductDetails.DiscountPercentageLabel.placeholder
         label.isHidden = true
         return label
     }()
@@ -97,7 +97,7 @@ class StoreProductDetailsViewController: UIViewController {
         label.font = .systemFont(ofSize: 10, weight: .light)
         label.textColor = .systemGray
         label.numberOfLines = 1
-        label.text = "1x R$ 00,00"
+        label.text = Localization.Features.ProductDetails.InstallsmentsLabel.placeholder
         return label
     }()
 
@@ -105,7 +105,7 @@ class StoreProductDetailsViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .label
-        button.setTitle("ADICIONAR AO CARRINHO", for: .normal)
+        button.setTitle(Localization.Features.ProductDetails.AddToCartButton.text, for: .normal)
         button.setTitleColor(.systemBackground, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
         button.addTarget(self, action: #selector(didTapAddToCartButton(sender:)), for: .touchUpInside)
@@ -227,7 +227,7 @@ class StoreProductDetailsViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Detalhes"
+        navigationItem.title = Localization.Features.ProductDetails.navigationTitle
         navigationItem.setRightBarButton(cartButton, animated: true)
     }
     
@@ -260,7 +260,6 @@ class StoreProductDetailsViewController: UIViewController {
     }
     
     private func handleAddToCart(size: StoreSize, product: StoreProduct) {
-        print("Adicionado \(product.name) de tamanho \(size.size) ao carrinho")
         viewModel.addToCart(size: size, product: product)
     }
     
@@ -306,20 +305,28 @@ class StoreProductDetailsViewController: UIViewController {
     
     private func presentUnitaryCartConfirmation(product: StoreProduct) {
         guard let size = product.sizes[safe: 0] else { return }
-         handleAddToCart(size: size, product: product)
-         let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Você adicionou um \(product.name.lowercased()) de tamanho \(size.size)", preferredStyle: .alert)
-             sizeAlert.addAction(UIAlertAction(title: "OK", style: .cancel))
-         present(sizeAlert, animated: true)
+        handleAddToCart(size: size, product: product)
+        let sizeAlert = UIAlertController(title: Localization.Generic.AddToCart.Unitary.title,
+                                          message: Localization.Generic.AddToCart.Unitary.message(product.name.lowercased(), size.size),
+                                          preferredStyle: .alert)
+        sizeAlert.addAction(UIAlertAction(title: Localization.Generic.AddToCart.Unitary.confirm,
+                                          style: .cancel))
+        present(sizeAlert, animated: true)
     }
     
     private func presentSelectableCartConfirmation(product: StoreProduct) {
-        let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Agora selecione o tamanho de \(product.name.lowercased()):", preferredStyle: .alert)
+        let sizeAlert = UIAlertController(title: Localization.Generic.AddToCart.Multiple.title,
+                                          message: Localization.Generic.AddToCart.Multiple.message(product.name.lowercased()),
+                                          preferredStyle: .alert)
         for size in product.sizes where size.available {
-            sizeAlert.addAction(UIAlertAction(title: size.size, style: .default, handler: { [weak self] _ in
+            sizeAlert.addAction(UIAlertAction(title: size.size,
+                                              style: .default,
+                                              handler: { [weak self] _ in
                 self?.handleAddToCart(size: size, product: product)
             }))
         }
-        sizeAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        sizeAlert.addAction(UIAlertAction(title: Localization.Generic.AddToCart.Multiple.cancel,
+                                          style: .cancel))
         present(sizeAlert, animated: true, completion: nil)
     }
     

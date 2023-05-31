@@ -28,7 +28,7 @@ class StoreValueConfirmationView: UIView {
         label.font = .systemFont(ofSize: 12, weight: .bold)
         label.textColor = .label
         label.numberOfLines = 1
-        label.text = "Total"
+        label.text = Localization.Components.Views.ValueConfirmation.DescriptionLabel.placeholder
         return label
     }()
     
@@ -37,7 +37,7 @@ class StoreValueConfirmationView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12, weight: .bold)
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Components.Views.ValueConfirmation.PriceLabel.placeholder
         return label
     }()
     
@@ -45,7 +45,7 @@ class StoreValueConfirmationView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .label
-        button.setTitle("Completar", for: .normal)
+        button.setTitle(Localization.Components.Views.ValueConfirmation.CompleteButton.placeholder, for: .normal)
         button.setTitleColor(.systemBackground, for: .normal)
         button.setTitleColor(.systemGray, for: .disabled)
         button.titleLabel?.font = .systemFont(ofSize: 12, weight: .regular)

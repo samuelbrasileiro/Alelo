@@ -15,7 +15,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
     
     // MARK: - PUBLIC PROPERTIES
     
-    static let cellReuseIdentifier = "StoreCartProductCellReuseIdentifier"
+    static let cellReuseIdentifier = Localization.Components.Cells.CartProduct.cellReuseIdentifier
     var subscribers: Set<AnyCancellable> = []
     let tapUpdateCartButton: PassthroughSubject<StoreCartProduct?, Never> = .init()
     let tapView: PassthroughSubject<StoreProduct?, Never> = .init()
@@ -39,7 +39,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         image.contentMode = .scaleAspectFill
         image.layer.masksToBounds = true
         image.layer.cornerRadius = 4
-        image.image = .init(systemName: "tshirt.fill")
+        image.image = CoreImage.unavailableImage.image
         return image
     }()
     
@@ -48,7 +48,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
         label.numberOfLines = 2
-        label.text = "placeholder"
+        label.text = Localization.Components.Cells.CartProduct.NameLabel.placeholder
         return label
     }()
     
@@ -57,7 +57,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Components.Cells.CartProduct.PriceLabel.placeholder
         return label
     }()
     
@@ -67,7 +67,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         label.font = .systemFont(ofSize: 12, weight: .light)
         label.textColor = .systemGray
         label.numberOfLines = 1
-        label.text = "R$000.00"
+        label.text = Localization.Components.Cells.CartProduct.DiscountLabel.placeholder
         label.isHidden = true
         return label
     }()
@@ -100,7 +100,7 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
         label.font = .systemFont(ofSize: 12, weight: .light)
         label.numberOfLines = 1
         label.textAlignment = .center
-        label.text = "0 ITEM"
+        label.text = Localization.Components.Cells.CartProduct.CountLabel.placeholder
         return label
     }()
     
@@ -221,9 +221,9 @@ class StoreCartProductCell: UITableViewCell, ShimmeringViewProtocol {
     private func setCountLabel(value: Int) {
         let countText: String
         if value > 1 {
-            countText = "\(value) ITENS"
+            countText = Localization.Components.Cells.CartProduct.CountLabel.multiple(value)
         } else {
-            countText = "\(value) ITEM"
+            countText = Localization.Components.Cells.CartProduct.CountLabel.unitary
         }
         countLabel.text = countText
     }

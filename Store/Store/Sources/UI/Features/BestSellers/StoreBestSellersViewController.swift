@@ -67,6 +67,7 @@ class StoreBestSellersViewController: UIViewController {
     }()
 
     // MARK: - INITIALIZERS
+    
     init(viewModel: StoreBestSellersViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -122,7 +123,7 @@ class StoreBestSellersViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Best Sellers"
+        navigationItem.title = Localization.Features.BestSellers.navigationTitle
         collectionView.refreshControl = refresh
         navigationItem.setRightBarButton(cartButton, animated: true)
         navigationItem.setLeftBarButton(filterButton, animated: true)
@@ -168,7 +169,6 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func handleAddToCart(size: StoreSize, product: StoreProduct) {
-        print("Adicionado \(product.name) de tamanho \(size.size) ao carrinho")
         viewModel.addToCart(size: size, product: product)
     }
     
@@ -184,7 +184,6 @@ class StoreBestSellersViewController: UIViewController {
     // MARK: - ACTIONS
     
     func didTapProduct(_ product: StoreProduct) {
-        print("Did tap cell of \(product.name)")
         delegate?.storeBestSellersViewController(self, goToProduct: product)
     }
     
@@ -212,18 +211,23 @@ class StoreBestSellersViewController: UIViewController {
     }
     
     private func presentFilterSheet() {
-        let filterSheet = UIAlertController(title: "Selecione um filtro", message: nil, preferredStyle: .actionSheet)
+        let filterSheet = UIAlertController(title: Localization.Features.BestSellers.Filter.title, message: nil, preferredStyle: .actionSheet)
         
-        filterSheet.addAction(UIAlertAction(title: "Em Promoção", style: .default, handler: { [weak self] _ in
+        filterSheet.addAction(UIAlertAction(title: Localization.Features.BestSellers.Filter.Cases.inPromotion,
+                                            style: .default,
+                                            handler: { [weak self] _ in
             self?.handleFilter(kind: .inPromotion)
         }))
         if viewModel.filter != nil {
-            filterSheet.addAction(UIAlertAction(title: "Apagar Filtros", style: .destructive, handler: { [weak self] _ in
+            filterSheet.addAction(UIAlertAction(title: Localization.Features.BestSellers.Filter.removeAll,
+                                                style: .destructive,
+                                                handler: { [weak self] _ in
                 self?.handleFilterRemoveAll()
             }))
         }
         
-        filterSheet.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        filterSheet.addAction(UIAlertAction(title: Localization.Features.BestSellers.Filter.cancel,
+                                            style: .cancel))
         present(filterSheet, animated: true, completion: nil)
     }
     
@@ -241,20 +245,28 @@ class StoreBestSellersViewController: UIViewController {
     
     private func presentUnitaryCartConfirmation(product: StoreProduct) {
         guard let size = product.sizes[safe: 0] else { return }
-         handleAddToCart(size: size, product: product)
-         let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Você adicionou um \(product.name.lowercased()) de tamanho \(size.size)", preferredStyle: .alert)
-             sizeAlert.addAction(UIAlertAction(title: "OK", style: .cancel))
-         present(sizeAlert, animated: true)
+        handleAddToCart(size: size, product: product)
+        let sizeAlert = UIAlertController(title: Localization.Generic.AddToCart.Unitary.title,
+                                          message: Localization.Generic.AddToCart.Unitary.message(product.name.lowercased(), size.size),
+                                          preferredStyle: .alert)
+        sizeAlert.addAction(UIAlertAction(title: Localization.Generic.AddToCart.Unitary.confirm,
+                                          style: .cancel))
+        present(sizeAlert, animated: true)
     }
     
     private func presentSelectableCartConfirmation(product: StoreProduct) {
-        let sizeAlert = UIAlertController(title: "Boa escolha!", message: "Agora selecione o tamanho de \(product.name.lowercased()):", preferredStyle: .alert)
+        let sizeAlert = UIAlertController(title: Localization.Generic.AddToCart.Multiple.title,
+                                          message: Localization.Generic.AddToCart.Multiple.message(product.name.lowercased()),
+                                          preferredStyle: .alert)
         for size in product.sizes where size.available {
-            sizeAlert.addAction(UIAlertAction(title: size.size, style: .default, handler: { [weak self] _ in
+            sizeAlert.addAction(UIAlertAction(title: size.size,
+                                              style: .default,
+                                              handler: { [weak self] _ in
                 self?.handleAddToCart(size: size, product: product)
             }))
         }
-        sizeAlert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        sizeAlert.addAction(UIAlertAction(title: Localization.Generic.AddToCart.Multiple.cancel,
+                                          style: .cancel))
         present(sizeAlert, animated: true, completion: nil)
     }
 }
