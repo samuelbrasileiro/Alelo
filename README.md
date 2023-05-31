@@ -11,20 +11,25 @@ The project is developed and documented by Samuel Brasileiro.
 ---
 
 ## Summary
+- [Video Simulation](#video-simulation)
 - [Running Locally](#running-locally)
     - [Setting up the environment](#setting-up-the-environment)
     - [Creating Project](#creating-project)
 - [Packages](#packages)
-    - [Commons](/Commons/README.md)
-    - [Dependency Injection](/DependencyInjection/README.md)
+    - [Commons Documentation](/Commons/README.md)
+    - [Dependency Injection Documentation](/DependencyInjection/README.md)
 - [Modules](#modules)
-    - [Service](/Service/README.md)
-    - [Core](/Core/README.md)
-    - [Store](/Service/README.md)
+    - [Service Documentation](/Service/README.md)
+    - [Core Documentation](/Core/README.md)
+    - [Store Documentation](/Service/README.md)
 - [Tests](#tests)
 - [Visualizing Dependency Graph](#visualizing-dependency-graph)
 - [Coding Patterns](#coding-patterns)
 ---
+
+## Video Simulation
+
+<iframe src="https://drive.google.com/file/d/1_d7ZEFqVhT3KCC--nQywqh08GiIBwqJQ/preview" width="640" height="480" allow="autoplay"></iframe>
 
 ## Running Locally
 
