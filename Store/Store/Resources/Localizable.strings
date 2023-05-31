@@ -64,6 +64,7 @@
 // MARK: - Features.Cart
 
 "Features.Cart.navigationTitle" = "Carrinho";
+"Features.Cart.EmptyCartLabel.text" = "O carrinho está vazio";
 "Features.Cart.ConfirmationView.descriptionText" = "TOTAL";
 "Features.Cart.ConfirmationView.buttonText" = "CONTINUAR";
 "Features.Cart.RemovalConfirmation.title" = "Deseja mesmo remover?";

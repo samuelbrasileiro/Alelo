@@ -58,6 +58,18 @@ class StoreCartViewController: UIViewController {
                    buttonText: Localization.Features.Cart.ConfirmationView.buttonText)
         return view
     }()
+    
+    private let emptyCartLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.textColor = UIColor.systemGray
+        label.text = Localization.Features.Cart.EmptyCartLabel.text
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: - INITIALIZERS
     
     init(viewModel: StoreCartViewModel) {
@@ -98,6 +110,7 @@ class StoreCartViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(separatorView)
         view.addSubview(confirmationView)
+        view.addSubview(emptyCartLabel)
     }
     
     private func setupConstraints() {
@@ -113,7 +126,10 @@ class StoreCartViewController: UIViewController {
             confirmationView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
             confirmationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             confirmationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            confirmationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            confirmationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            emptyCartLabel.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            emptyCartLabel.centerYAnchor.constraint(equalTo: tableView.centerYAnchor)
         ])
     }
     
@@ -146,6 +162,7 @@ class StoreCartViewController: UIViewController {
         isLoading = false
         confirmationView.update(priceText: viewModel.getTotalPriceText())
         confirmationView.disabled = viewModel.isCartEmpty()
+        emptyCartLabel.isHidden = !viewModel.isCartEmpty()
     }
     
     private func handleError(_ error: Error) {
