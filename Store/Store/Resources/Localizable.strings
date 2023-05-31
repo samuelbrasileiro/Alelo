@@ -6,4 +6,78 @@
   
 */
 
+// MARK: - Generic
+
 "Generic.Coder.FatalError" = "init(coder:) has not been implemented";
+
+// MARK: - Generic.AddToCart
+
+"Generic.AddToCart.Unitary.title" = "Boa Escolha!";
+"Generic.AddToCart.Unitary.message" = "Você adicionou um %@ de tamanho %@";
+"Generic.AddToCart.Unitary.confirm" = "OK";
+"Generic.AddToCart.Multiple.title" = "Boa Escolha!";
+"Generic.AddToCart.Multiple.message" = "Agora selecione o tamanho de %@:";
+"Generic.AddToCart.Multiple.cancel" = "Cancelar";
+
+// MARK: - Components
+
+// MARK: - Components.Cells
+
+// MARK: - Components.Cells.CartProduct
+
+"Components.Cells.CartProduct.cellReuseIdentifier" = "StoreCartProductCellReuseIdentifier";
+"Components.Cells.CartProduct.NameLabel.placeholder" = "placeholder";
+"Components.Cells.CartProduct.PriceLabel.placeholder" = "R$000,00";
+"Components.Cells.CartProduct.DiscountLabel.placeholder" = "R$000,00";
+"Components.Cells.CartProduct.CountLabel.placeholder" = "0 ITEM";
+"Components.Cells.CartProduct.CountLabel.unitary" = "1 ITEM";
+"Components.Cells.CartProduct.CountLabel.multiple" = "%@ ITEM";
+
+// MARK: - Components.Cells.Product
+
+"Components.Cells.Product.cellReuseIdentifier" = "StoreProductCellReuseIdentifier";
+"Components.Cells.Product.PromoLabel.text" = "PROMO";
+"Components.Cells.Product.NameLabel.placeholder" = "placeholder";
+"Components.Cells.Product.PriceLabel.placeholder" = "R$000,00";
+"Components.Cells.Product.DiscountLabel.placeholder" = "R$000,00";
+"Components.Cells.Product.DiscountPercentageLabel.placeholder" = "00%";
+"Components.Cells.Product.InstallsmentsLabel.placeholder" = "1x R$ 00,00";
+
+// MARK: - Components.Views
+
+// MARK: - Components.Views.ValueConfirmation
+
+"Components.Views.ValueConfirmation.DescriptionLabel.placeholder" = "Total";
+"Components.Views.ValueConfirmation.PriceLabel.placeholder" = "R$000,00";
+"Components.Views.ValueConfirmation.CompleteButton.placeholder" = "Completar";
+
+// MARK: Features
+
+// MARK: Features.BestSellers
+
+"Features.BestSellers.navigationTitle" = "Mais Vendidos";
+"Features.BestSellers.Filter.title" = "Selecione um filtro";
+"Features.BestSellers.Filter.Cases.inPromotion" = "Em promoção";
+"Features.BestSellers.Filter.removeAll" = "Apagar Filtros";
+"Features.BestSellers.Filter.cancel" = "Cancelar";
+
+// MARK: - Features.Cart
+
+"Features.Cart.navigationTitle" = "Carrinho";
+"Features.Cart.ConfirmationView.descriptionText" = "TOTAL";
+"Features.Cart.ConfirmationView.buttonText" = "CONTINUAR";
+"Features.Cart.RemovalConfirmation.title" = "Deseja mesmo remover?";
+"Features.Cart.RemovalConfirmation.message" = "%@ vai sentir falta de você!";
+"Features.Cart.RemovalConfirmation.remove" = "Remover";
+"Features.Cart.RemovalConfirmation.cancel" = "Cancelar";
+
+// MARK: - Features.ProductDetails
+
+"Features.ProductDetails.navigationTitle" = "Detalhes do produto";
+"Features.ProductDetails.NameLabel.placeholder" = "placeholder";
+"Features.ProductDetails.PriceLabel.placeholder" = "R$000,00";
+"Features.ProductDetails.DiscountLabel.placeholder" = "R$000,00";
+"Features.ProductDetails.PromoLabel.text" = "PROMO";
+"Features.ProductDetails.DiscountPercentageLabel.placeholder" = "00%";
+"Features.ProductDetails.InstallsmentsLabel.placeholder" = "1x R$ 00,00";
+"Features.ProductDetails.addToCartButton.text" = "ADICIONAR AO CARRINHO";
