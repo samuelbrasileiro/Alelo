@@ -21,7 +21,7 @@ The project is developed and documented by Samuel Brasileiro.
 - [Modules](#modules)
     - [Service Documentation](/Service/README.md)
     - [Core Documentation](/Core/README.md)
-    - [Store Documentation](/Service/README.md)
+    - [Store Documentation](/Store/README.md)
 - [Tests](#tests)
 - [Visualizing Dependency Graph](#visualizing-dependency-graph)
 - [Coding Patterns](#coding-patterns)
